@@ -22,7 +22,7 @@ namespace AuditionHelper
         private InputSimulator simulator = new InputSimulator();
         private SrtLine[] result = null;
         private IniFile conf = new IniFile("settings.ini");
-        
+        private Process lastProcess = null;
 
         private int _index = 0;
         /// <summary>
@@ -110,7 +110,7 @@ namespace AuditionHelper
             conf.Write(LAST_FLOAT_Y, formFloat.Location.Y.ToString(), LAST);
             conf.Write(LAST_MATCH_FULL_WORD, (checkBoxMatchFullWord.Checked).ToString(), LAST);
 
-            conf.Write(ID_OpenFileWaitTimeFactor, AuditionAutomator.OpenFileWaitTimeFactor.ToString(), SETTINGS);
+            conf.Write(ID_OpenFileWaitTimeFactor, AuditionHelper.OpenFileWaitTimeFactor.ToString(), SETTINGS);
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -125,7 +125,7 @@ namespace AuditionHelper
             txtSearch.Text = conf.Read(LAST_SEARCH, LAST);
             Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_X, LAST));
             formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
-            AuditionAutomator.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
+            AuditionHelper.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
             FullMatch = conf.Read2<bool>(LAST_MATCH_FULL_WORD);
 
             helper = new SearchHelper(AudioPath);
@@ -138,62 +138,58 @@ namespace AuditionHelper
             btnSearch_Click(null, null);
 
             //注册热键
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Alt, Keys.Right); //下一个文件
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Alt, Keys.Left); //上一个文件 
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.Right); //下一个位置
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.Left); //上一个位置
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Alt, Keys.Right); //下一个文件
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Alt, Keys.Left); //上一个文件 
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Control, Keys.Right); //下一个位置
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Control, Keys.Left); //上一个位置
             //Ctrl + R 重载当前选区
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.R); 
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Control, Keys.R);
             //Ctrl + Shift + R 重载当前文件
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control | AuditionHelper.ModifierKeys.Shift, Keys.R);
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Control | global::AuditionHelper.ModifierKeys.Shift, Keys.R);
             //Ctrl + Alt + R 打开指定文件并重载当前选区
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control | AuditionHelper.ModifierKeys.Alt, Keys.R);
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Control | global::AuditionHelper.ModifierKeys.Alt, Keys.R);
             //Ctrl + E 设置下标
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.E);
-            //Ctrl + F 标记当前选区
-            //kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.F); 
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Control, Keys.E);
 
             kbd.KeyPressed += Kbd_KeyPressed;
-
-       
         }
 
         private void Kbd_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            Sleep(400); //避免太快，用户还没来得及放开上一个快捷键
+            AuditionHelper.Sleep(400); //避免太快，用户还没来得及放开上一个快捷键
 
             //下一个文件
-            if (e.Key == Keys.Right && e.Modifier == AuditionHelper.ModifierKeys.Alt)
+            if (e.Key == Keys.Right && e.Modifier == global::AuditionHelper.ModifierKeys.Alt)
                 NextFile();
             //上一个文件 
-            else if (e.Key == Keys.Left && e.Modifier == AuditionHelper.ModifierKeys.Alt)
+            else if (e.Key == Keys.Left && e.Modifier == global::AuditionHelper.ModifierKeys.Alt)
                 PrevFile();
 
             //下一个
-            else if (e.Key == Keys.Right && e.Modifier == AuditionHelper.ModifierKeys.Control)
+            else if (e.Key == Keys.Right && e.Modifier == global::AuditionHelper.ModifierKeys.Control)
             {
                 MoveNext();
                 LoadCurrent();
             }
             //上一个
-            else if (e.Key == Keys.Left && e.Modifier == AuditionHelper.ModifierKeys.Control)
+            else if (e.Key == Keys.Left && e.Modifier == global::AuditionHelper.ModifierKeys.Control)
             {
                 MovePrev();
                 LoadCurrent();
             }
             //重载当前选区
-            else if (e.Key == Keys.R && e.Modifier == AuditionHelper.ModifierKeys.Control)
+            else if (e.Key == Keys.R && e.Modifier == global::AuditionHelper.ModifierKeys.Control)
             {
                 LoadCurrent();
             }
             //重载当前文件
-            else if (e.Key == Keys.R && e.Modifier == (AuditionHelper.ModifierKeys.Shift | AuditionHelper.ModifierKeys.Control))
+            else if (e.Key == Keys.R && e.Modifier == (global::AuditionHelper.ModifierKeys.Shift | global::AuditionHelper.ModifierKeys.Control))
             {
                 OpenFile(System.IO.Path.ChangeExtension(result[Index].FilePath, ".mp3"));
                 LoadCurrent();
             }
             //打开指定文件并载入当前选区
-            else if (e.Key == Keys.R && e.Modifier == (AuditionHelper.ModifierKeys.Alt | AuditionHelper.ModifierKeys.Control))
+            else if (e.Key == Keys.R && e.Modifier == (global::AuditionHelper.ModifierKeys.Alt | global::AuditionHelper.ModifierKeys.Control))
             {
                 OpenFileDialog dialog = new OpenFileDialog();
                 dialog.Filter = "mp3 文件|*.mp3|所有文件|*.*";
@@ -206,7 +202,7 @@ namespace AuditionHelper
                 dialog.Dispose();
             }
             //跳到指定位置
-            else if (e.Key == Keys.E && e.Modifier == AuditionHelper.ModifierKeys.Control)
+            else if (e.Key == Keys.E && e.Modifier == global::AuditionHelper.ModifierKeys.Control)
             {
                 string input = "";
                 Util.ShowInputDialog(ref input);
@@ -263,23 +259,6 @@ namespace AuditionHelper
                 Index = result.Length;
         }
 
-        /// <summary>
-        /// 选中当前 index
-        /// </summary>
-        private void LoadCurrent()
-        {
-            AuditionAutomator.EnsureActived();
-            formFloat.UpdateUI();
-
-            //检测重复打开的情况
-            string audioPath = System.IO.Path.ChangeExtension(result[Index].FilePath, ".mp3");
-            if (lastFile != audioPath)
-                OpenFile(audioPath);
-            
-
-            Select(result[Index].StartTime, result[Index].EndTime);
-        }
-
         private void NextFile()
         {
 
@@ -291,74 +270,33 @@ namespace AuditionHelper
         }
 
         /// <summary>
+        /// 选中当前 index
+        /// </summary>
+        private void LoadCurrent()
+        {
+            AuditionHelper.EnsureActived();
+            formFloat.UpdateUI();
+
+            //检测重复打开的情况
+            string audioPath = System.IO.Path.ChangeExtension(result[Index].FilePath, ".mp3");
+            if (lastFile != audioPath)
+                OpenFile(audioPath);
+
+
+            AuditionHelper.Select(result[Index].StartTime, result[Index].EndTime);
+        }
+
+        /// <summary>
         /// 打开文件
         /// </summary>
         /// <param name="path">文件路径</param>
         /// <param name="alternativeMode">代替模式。为真时将不会改变 lastFile 的值。</param>
-        private void OpenFile(string path, bool alternativeMode=false)
+        private void OpenFile(string path, bool alternativeMode = false)
         {
-            if(!alternativeMode)
+            if (!alternativeMode)
                 lastFile = path;
 
-            AuditionAutomator.OpenFile(path);
-        }
-
-        private void Seek(string time)
-        {
-            ResetFocus();
-
-            //Shift + TAB 移动到时间显示处
-            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
-            Sleep();
-
-            //粘贴时间
-            Clipboard.SetText(time.Replace(",", ".")); //srt 和 au 的时间格式有点不一样，需要转换
-            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_A);
-            Sleep();
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.BACK);
-            Sleep();
-
-            simulator.Keyboard.TextEntry(time.Replace(",", "."));
-            Sleep();
-            
-            //Enter 确认
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.RETURN);
-            Sleep();
-
-            ResetFocus();
-        }
-
-        private void Select(string startTime, string endTime)
-        {
-            Seek(startTime);
-            Sleep();
-            //I 设置为入点
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_I);
-            Seek(endTime);
-            Sleep();
-            //O 设置为出点
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_O);
-            Sleep();
-            //移动回开头
-            Seek(startTime);
-            Sleep();
-            //缩放为选区
-            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.VK_S);
-        }
-
-        //重置编辑面板焦点
-        //希望有更好的方法
-        private void ResetFocus()
-        {
-            //Alt + 1 关闭编辑面板
-            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
-            //Alt + 1 再打开编辑面板
-            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
-        }
-
-        private void Sleep(int time=100)
-        {
-            System.Threading.Thread.Sleep(time);
+            AuditionHelper.OpenFile(path);
         }
 
         /// <summary>
@@ -416,20 +354,18 @@ namespace AuditionHelper
         }
 
 
-        #endregion
-
         private void btnRecordWaitTimeFactor_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             MessageBox.Show("确定后将会自动打开一个文件，你需要在文件载入完成之后立即按下 Ctrl + Alt + N 以结束录制。");
-            kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control | AuditionHelper.ModifierKeys.Alt, Keys.N);
+            kbd.RegisterHotKey(global::AuditionHelper.ModifierKeys.Control | global::AuditionHelper.ModifierKeys.Alt, Keys.N);
             kbd.KeyPressed += (object sender2, KeyPressedEventArgs e2) =>
             {
-                if(stopwatch.IsRunning && e2.Key == Keys.N && e2.Modifier == (AuditionHelper.ModifierKeys.Control | AuditionHelper.ModifierKeys.Alt))
+                if (stopwatch.IsRunning && e2.Key == Keys.N && e2.Modifier == (global::AuditionHelper.ModifierKeys.Control | global::AuditionHelper.ModifierKeys.Alt))
                 {
                     stopwatch.Stop();
-                    AuditionAutomator.OpenFileWaitTimeFactor = new FileInfo(result[0].FilePath).Length / stopwatch.Elapsed.TotalSeconds;
-                    Util.ShowBalloon("音源辅助工具", "等待时间因子已保存：" + AuditionAutomator.OpenFileWaitTimeFactor);
+                    AuditionHelper.OpenFileWaitTimeFactor = new FileInfo(result[0].FilePath).Length / stopwatch.Elapsed.TotalSeconds;
+                    Util.ShowBalloon("音源辅助工具", "等待时间因子已保存：" + AuditionHelper.OpenFileWaitTimeFactor);
                     stopwatch.Reset();
                 }
             };
@@ -451,8 +387,23 @@ namespace AuditionHelper
                 //-i 输入文件 -ss 开始时间 -t 播放长度
 
                 string args = string.Format("-i \"{0}\" -ss {1} -t {2} -autoexit", Path.ChangeExtension(result[listFiles.SelectedIndex].FilePath, ".mp3"), result[listFiles.SelectedIndex].StartTime.Replace(",", "."), result[listFiles.SelectedIndex].Duration);
+                //string args = string.Format("-i \"{0}\" -ss {1} -t {2}", Path.ChangeExtension(result[listFiles.SelectedIndex].FilePath, ".mp3"), result[listFiles.SelectedIndex].StartTime.Replace(",", "."), result[listFiles.SelectedIndex].Duration);
 
-                Process p = new Process
+                try
+                {
+                    if (lastProcess != null && !lastProcess.HasExited)
+                    {
+                        lastProcess.Kill();
+                        lastProcess.Dispose();
+                    }
+                }
+                catch
+                {
+
+                }
+
+
+                lastProcess = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
@@ -462,8 +413,8 @@ namespace AuditionHelper
                         WindowStyle = ProcessWindowStyle.Hidden
                     }
                 };
-                p.Start();
-                p.Dispose();
+                lastProcess.Start();
+                lastProcess.Dispose();
 
                 //上面代码的等价写法
                 //Process process = new Process();
@@ -474,11 +425,14 @@ namespace AuditionHelper
                 //process.Start();
                 //process.Dispose();
             }
-            else if(e.KeyChar == '\n')
+            else if (e.KeyChar == '\n')
             {
                 listFiles_DoubleClick(null, null);
             }
         }
+
+        #endregion
+
 
     }
 }

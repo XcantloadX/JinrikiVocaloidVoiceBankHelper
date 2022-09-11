@@ -10,7 +10,7 @@ using WindowsInput.Native;
 
 namespace AuditionHelper
 {
-    public class AuditionAutomator
+    public class AuditionHelper
     {
         private static InputSimulator simulator = new InputSimulator();
         public const VirtualKeyCode ALT = (VirtualKeyCode)0x12;
@@ -47,6 +47,7 @@ namespace AuditionHelper
             }
         }
 
+        #region WIN32 API
         [DllImport("user32.dll")]
         static extern IntPtr GetForegroundWindow();
 
@@ -56,6 +57,10 @@ namespace AuditionHelper
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
 
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        #endregion
         /// <summary>
         /// 保存当前选区为 UTAU 格式并自动重命名
         /// <param name="fileName">不加后缀名</param>
@@ -151,20 +156,26 @@ namespace AuditionHelper
         }
 
 
+        /// <summary>
+        /// 按下某键
+        /// </summary>
+        /// <param name="key">按键</param>
+        /// <param name="modifiers">修饰键</param>
         private static void PressKey(VirtualKeyCode key, params VirtualKeyCode[] modifiers)
         {
             simulator.Keyboard.ModifiedKeyStroke(modifiers, key);
             
         }
 
+        /// <summary>
+        /// 输入字符串
+        /// </summary>
+        /// <param name="text"></param>
         private static void InputString(string text)
         {
             simulator.Keyboard.TextEntry(text);
         }
 
-
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
         /// <summary>
         /// 保证当前激活窗口为 Audition
         /// </summary>
@@ -177,7 +188,60 @@ namespace AuditionHelper
             SetForegroundWindow(processes[0].MainWindowHandle);
         }
 
-        private static void Sleep(int time = 100)
+        public static void Seek(string time)
+        {
+            ResetFocus();
+
+            //Shift + TAB 移动到时间显示处
+            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
+            Sleep();
+
+            //粘贴时间
+            System.Windows.Forms.Clipboard.SetText(time.Replace(",", ".")); //srt 和 au 的时间格式有点不一样，需要转换
+            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_A);
+            Sleep();
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.BACK);
+            Sleep();
+
+            simulator.Keyboard.TextEntry(time.Replace(",", "."));
+            Sleep();
+
+            //Enter 确认
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.RETURN);
+            Sleep();
+
+            ResetFocus();
+        }
+
+        public static void Select(string startTime, string endTime)
+        {
+            Seek(startTime);
+            Sleep();
+            //I 设置为入点
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_I);
+            Seek(endTime);
+            Sleep();
+            //O 设置为出点
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_O);
+            Sleep();
+            //移动回开头
+            Seek(startTime);
+            Sleep();
+            //缩放为选区
+            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.VK_S);
+        }
+
+        //重置编辑面板焦点
+        //希望有更好的方法
+        public static void ResetFocus()
+        {
+            //Alt + 1 关闭编辑面板
+            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
+            //Alt + 1 再打开编辑面板
+            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
+        }
+
+        internal static void Sleep(int time = 100)
         {
             System.Threading.Thread.Sleep(time);
         }

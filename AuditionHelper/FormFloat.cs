@@ -25,7 +25,7 @@ namespace AuditionHelper
         private void btnSaveSelection_Click(object sender, EventArgs e)
         {
             string fileName = mainForm.NextVoiceFileName;
-            AuditionAutomator.SaveSelection(fileName, mainForm.VoicePath);
+            AuditionHelper.SaveSelection(fileName, mainForm.VoicePath);
             Util.ShowBalloon("已保存文件", fileName + ".wav");
         }
 
@@ -35,7 +35,7 @@ namespace AuditionHelper
             if(Util.ShowInputDialog(ref name, "请输入发音名（不带 .wav，不带数字序号）") == DialogResult.OK)
             {
                 string fileName = mainForm.GetNextVoiceFileName(name);
-                AuditionAutomator.SaveSelection(fileName, mainForm.VoicePath);
+                AuditionHelper.SaveSelection(fileName, mainForm.VoicePath);
                 Util.ShowBalloon("已保存文件", fileName);
             }
 
@@ -55,7 +55,7 @@ namespace AuditionHelper
 
         private void timerTopWindowDetector_Tick(object sender, EventArgs e)
         {
-            Visible = AuditionAutomator.IsAuditionActive;
+            Visible = AuditionHelper.IsAuditionActive;
         }
     }
 }
