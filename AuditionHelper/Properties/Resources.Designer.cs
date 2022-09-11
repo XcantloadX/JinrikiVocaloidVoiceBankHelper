@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AuditionHelper.Properties {
+namespace JinrikiVocaloidVoiceBankHelper.Properties {
     using System;
     
     

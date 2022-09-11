@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JinrikiVocaloidVoiceBankHelper.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AuditionHelper
+namespace JinrikiVocaloidVoiceBankHelper
 {
     public partial class FormFloat : Form
     {
@@ -25,18 +26,18 @@ namespace AuditionHelper
         private void btnSaveSelection_Click(object sender, EventArgs e)
         {
             string fileName = mainForm.NextVoiceFileName;
-            AuditionHelper.SaveSelection(fileName, mainForm.VoicePath);
-            Util.ShowBalloon("已保存文件", fileName + ".wav");
+            AuditionAutomator.SaveSelection(fileName, mainForm.VoicePath);
+            UIUtil.ShowBalloon("已保存文件", fileName + ".wav");
         }
 
         private void btnSaveSelectionAs_Click(object sender, EventArgs e)
         {
             string name = "";
-            if(Util.ShowInputDialog(ref name, "请输入发音名（不带 .wav，不带数字序号）") == DialogResult.OK)
+            if(UIUtil.ShowInputDialog(ref name, "请输入发音名（不带 .wav，不带数字序号）") == DialogResult.OK)
             {
                 string fileName = mainForm.GetNextVoiceFileName(name);
-                AuditionHelper.SaveSelection(fileName, mainForm.VoicePath);
-                Util.ShowBalloon("已保存文件", fileName);
+                AuditionAutomator.SaveSelection(fileName, mainForm.VoicePath);
+                UIUtil.ShowBalloon("已保存文件", fileName);
             }
 
         }
@@ -55,7 +56,7 @@ namespace AuditionHelper
 
         private void timerTopWindowDetector_Tick(object sender, EventArgs e)
         {
-            Visible = AuditionHelper.IsAuditionActive;
+            Visible = AuditionAutomator.IsAuditionActive;
         }
     }
 }

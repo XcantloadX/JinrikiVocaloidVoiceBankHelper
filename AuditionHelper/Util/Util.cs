@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AuditionHelper
+namespace JinrikiVocaloidVoiceBankHelper
 {
-    internal class Util
+    internal class UIUtil
     {
         public static DialogResult ShowInputDialog(ref string input, string title="Input")
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using NPinyin;
 
-namespace AuditionHelper
+namespace JinrikiVocaloidVoiceBankHelper.Core
 {
     /// <summary>
     /// srt 字幕文件读取器
@@ -84,8 +84,8 @@ namespace AuditionHelper
         {
             get
             {
-                //return Pinyin.GetPinyin(Content);
-                return TinyPinyin.PinyinHelper.GetPinyin(Content).ToLower();
+                return Pinyin.GetPinyin(Content);
+                //return TinyPinyin.PinyinHelper.GetPinyin(Content).ToLower();
             }
         }
         public double Speed

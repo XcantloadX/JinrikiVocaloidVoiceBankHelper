@@ -1,4 +1,4 @@
-﻿namespace AuditionHelper
+﻿namespace JinrikiVocaloidVoiceBankHelper
 {
     partial class FormMain
     {
@@ -43,7 +43,17 @@
             this.btnOpenAudio = new System.Windows.Forms.Button();
             this.listFiles = new System.Windows.Forms.ListBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.新建素材库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开素材库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.剪切剪映字幕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开浮动工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -59,7 +69,7 @@
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.btnOpenAudio);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 31);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(849, 164);
             this.panel1.TabIndex = 0;
@@ -183,27 +193,103 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listFiles.FormattingEnabled = true;
             this.listFiles.ItemHeight = 15;
-            this.listFiles.Location = new System.Drawing.Point(0, 170);
+            this.listFiles.Location = new System.Drawing.Point(0, 215);
             this.listFiles.Name = "listFiles";
-            this.listFiles.Size = new System.Drawing.Size(849, 424);
+            this.listFiles.Size = new System.Drawing.Size(849, 409);
             this.listFiles.TabIndex = 1;
             this.listFiles.DoubleClick += new System.EventHandler(this.listFiles_DoubleClick);
             this.listFiles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.listFiles_KeyPress);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.文件ToolStripMenuItem,
+            this.工具ToolStripMenuItem,
+            this.关于ToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(849, 28);
+            this.menuStrip1.TabIndex = 12;
+            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
+            // 
+            // 文件ToolStripMenuItem
+            // 
+            this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.新建素材库ToolStripMenuItem,
+            this.打开素材库ToolStripMenuItem,
+            this.退出ToolStripMenuItem});
+            this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.文件ToolStripMenuItem.Text = "文件";
+            // 
+            // 新建素材库ToolStripMenuItem
+            // 
+            this.新建素材库ToolStripMenuItem.Name = "新建素材库ToolStripMenuItem";
+            this.新建素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.新建素材库ToolStripMenuItem.Text = "新建素材库...";
+            // 
+            // 打开素材库ToolStripMenuItem
+            // 
+            this.打开素材库ToolStripMenuItem.Name = "打开素材库ToolStripMenuItem";
+            this.打开素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.打开素材库ToolStripMenuItem.Text = "打开素材库";
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
+            // 工具ToolStripMenuItem
+            // 
+            this.工具ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.剪切剪映字幕ToolStripMenuItem,
+            this.打开浮动工具栏ToolStripMenuItem});
+            this.工具ToolStripMenuItem.Name = "工具ToolStripMenuItem";
+            this.工具ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.工具ToolStripMenuItem.Text = "工具";
+            // 
+            // 剪切剪映字幕ToolStripMenuItem
+            // 
+            this.剪切剪映字幕ToolStripMenuItem.Name = "剪切剪映字幕ToolStripMenuItem";
+            this.剪切剪映字幕ToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.剪切剪映字幕ToolStripMenuItem.Text = "剪切剪映字幕";
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.关于ToolStripMenuItem.Text = "关于";
+            // 
+            // 打开浮动工具栏ToolStripMenuItem
+            // 
+            this.打开浮动工具栏ToolStripMenuItem.Name = "打开浮动工具栏ToolStripMenuItem";
+            this.打开浮动工具栏ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.打开浮动工具栏ToolStripMenuItem.Text = "打开浮动工具栏";
+            this.打开浮动工具栏ToolStripMenuItem.Click += new System.EventHandler(this.打开浮动工具栏ToolStripMenuItem_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(849, 597);
+            this.ClientSize = new System.Drawing.Size(849, 637);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.listFiles);
             this.Controls.Add(this.panel1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "音源制作辅助工具";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -223,6 +309,15 @@
         private System.Windows.Forms.Label lblWaitTimeFactor;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBoxMatchFullWord;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 新建素材库ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开素材库ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 工具ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 剪切剪映字幕ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开浮动工具栏ToolStripMenuItem;
     }
 }
 

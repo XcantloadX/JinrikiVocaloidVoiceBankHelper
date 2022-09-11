@@ -1,4 +1,4 @@
-﻿namespace AuditionHelper
+﻿namespace JinrikiVocaloidVoiceBankHelper
 {
     partial class FormFloat
     {
