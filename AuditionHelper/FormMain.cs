@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using JinrikiVocaloidVoiceBankHelper.Util;
 using JinrikiVocaloidVoiceBankHelper.Core;
+using AuditionHelper.Core;
 
 namespace JinrikiVocaloidVoiceBankHelper
 {
@@ -455,7 +456,7 @@ namespace JinrikiVocaloidVoiceBankHelper
                     StartInfo = new ProcessStartInfo
                     {
                         Arguments = args,
-                        FileName = "ffplay.exe",
+                        FileName = "tools\\ffplay.exe",
                         CreateNoWindow = true,
                         WindowStyle = ProcessWindowStyle.Hidden
                     }
