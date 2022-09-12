@@ -1,0 +1,8 @@
+<ExtensionList>
+    <Extension Id="top.qwq123.auditionuatu.panel">
+       <HostList>
+           
+           <Host Name="AUDT" Port="8088"/>
+        </HostList>
+    </Extension>
+</ExtensionList>

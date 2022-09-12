@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AuditionHelper.Core;
+using JinrikiVocaloidVBHelper.Util;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,9 +10,9 @@ using System.Threading.Tasks;
 using WindowsInput;
 using WindowsInput.Native;
 
-namespace JinrikiVocaloidVoiceBankHelper.Core
+namespace JinrikiVocaloidVBHelper.Core
 {
-    public class AuditionAutomator
+    public class AuditionKeyboardController : AuditionController
     {
         private static InputSimulator simulator = new InputSimulator();
         public const VirtualKeyCode ALT = (VirtualKeyCode)0x12;
@@ -56,11 +58,8 @@ namespace JinrikiVocaloidVoiceBankHelper.Core
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
 
-        /// <summary>
-        /// 保存当前选区为 UTAU 格式并自动重命名
-        /// <param name="fileName">不加后缀名</param>
-        /// </summary>
-        public static void SaveSelection(string fileName, string filePath)
+
+        public override void SaveSelection(string fileName, string filePath)
         {
             EnsureActived();
 
@@ -76,7 +75,6 @@ namespace JinrikiVocaloidVoiceBankHelper.Core
             PressKey(VirtualKeyCode.VK_R, ALT);
             Sleep();
 
-            //向下 8 格 TODO 取消硬编码
             PressKey(VirtualKeyCode.RETURN);
             Sleep();
 
@@ -111,12 +109,7 @@ namespace JinrikiVocaloidVoiceBankHelper.Core
             Sleep();
         }
 
-        /// <summary>
-        /// 打开文件
-        /// </summary>
-        /// <param name="path">文件路径</param>
-        /// <param name="alternativeMode">代替模式。为真时将不会改变 lastFile 的值。</param>
-        public static void OpenFile(string path)
+        public override void OpenFile(string path)
         {
             EnsureActived();
 
@@ -150,6 +143,59 @@ namespace JinrikiVocaloidVoiceBankHelper.Core
             Sleep((int)(waitTime * 1000));
         }
 
+        public override void Select(string startTime, string endTime)
+        {
+            Seek(startTime);
+            Sleep();
+            //I 设置为入点
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_I);
+            Seek(endTime);
+            Sleep();
+            //O 设置为出点
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_O);
+            Sleep();
+            //移动回开头
+            Seek(startTime);
+            Sleep();
+            //缩放为选区
+            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.VK_S);
+        }
+
+        public override void Seek(string time)
+        {
+            ResetFocus();
+
+            //Shift + TAB 移动到时间显示处
+            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
+            Sleep();
+
+            //粘贴时间
+            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_A);
+            Sleep();
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.BACK);
+            Sleep();
+
+            simulator.Keyboard.TextEntry(time.Replace(",", "."));
+            Sleep();
+
+            //Enter 确认
+            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.RETURN);
+            Sleep();
+
+            ResetFocus();
+        }
+
+        /// <summary>
+        /// 重置编辑面板焦点
+        /// </summary>
+        public void ResetFocus()
+        {
+            //Alt + 1 关闭编辑面板
+            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
+            //Alt + 1 再打开编辑面板
+            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
+        }
+
 
         private static void PressKey(VirtualKeyCode key, params VirtualKeyCode[] modifiers)
         {
@@ -162,24 +208,19 @@ namespace JinrikiVocaloidVoiceBankHelper.Core
             simulator.Keyboard.TextEntry(text);
         }
 
-
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
-        /// <summary>
-        /// 保证当前激活窗口为 Audition
-        /// </summary>
-        public static void EnsureActived()
-        {
-            //TODO 支持 audition cs.exe
-            var processes = Process.GetProcessesByName("Adobe Audition CC");
-            if (processes.Length == 0) throw new Exception("找不到 Adobe Audition CC.exe");
-
-            SetForegroundWindow(processes[0].MainWindowHandle);
-        }
-
         private static void Sleep(int time = 100)
         {
             System.Threading.Thread.Sleep(time);
+        }
+
+        public override void Select2(double startTime, double endTime)
+        {
+            Select(TimeConvert.Sec2SrtTime(startTime), TimeConvert.Sec2SrtTime(endTime));
+        }
+
+        public override void Seek2(double time)
+        {
+            Seek(TimeConvert.Sec2SrtTime(time));
         }
     }
 }

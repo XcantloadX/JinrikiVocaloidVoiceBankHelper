@@ -1,4 +1,4 @@
-﻿namespace JinrikiVocaloidVoiceBankHelper
+﻿namespace JinrikiVocaloidVBHelper
 {
     partial class FormMain
     {
@@ -50,8 +50,8 @@
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.剪切剪映字幕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开浮动工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -239,7 +239,7 @@
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -255,14 +255,8 @@
             // 剪切剪映字幕ToolStripMenuItem
             // 
             this.剪切剪映字幕ToolStripMenuItem.Name = "剪切剪映字幕ToolStripMenuItem";
-            this.剪切剪映字幕ToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.剪切剪映字幕ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.剪切剪映字幕ToolStripMenuItem.Text = "剪切剪映字幕";
-            // 
-            // 关于ToolStripMenuItem
-            // 
-            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
-            this.关于ToolStripMenuItem.Text = "关于";
             // 
             // 打开浮动工具栏ToolStripMenuItem
             // 
@@ -270,6 +264,12 @@
             this.打开浮动工具栏ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.打开浮动工具栏ToolStripMenuItem.Text = "打开浮动工具栏";
             this.打开浮动工具栏ToolStripMenuItem.Click += new System.EventHandler(this.打开浮动工具栏ToolStripMenuItem_Click);
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.关于ToolStripMenuItem.Text = "关于";
             // 
             // FormMain
             // 
@@ -281,7 +281,7 @@
             this.Controls.Add(this.panel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
-            this.Text = "音源制作辅助工具";
+            this.Text = "UATU 音源制作助手";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.panel1.ResumeLayout(false);

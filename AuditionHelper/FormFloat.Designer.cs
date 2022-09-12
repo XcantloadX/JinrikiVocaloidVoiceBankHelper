@@ -1,4 +1,4 @@
-﻿namespace JinrikiVocaloidVoiceBankHelper
+﻿namespace JinrikiVocaloidVBHelper
 {
     partial class FormFloat
     {

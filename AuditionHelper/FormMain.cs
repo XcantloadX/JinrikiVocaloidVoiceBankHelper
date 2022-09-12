@@ -8,11 +8,11 @@ using WindowsInput;
 using WindowsInput.Native;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using JinrikiVocaloidVoiceBankHelper.Util;
-using JinrikiVocaloidVoiceBankHelper.Core;
+using JinrikiVocaloidVBHelper.Util;
+using JinrikiVocaloidVBHelper.Core;
 using AuditionHelper.Core;
 
-namespace JinrikiVocaloidVoiceBankHelper
+namespace JinrikiVocaloidVBHelper
 {
     public partial class FormMain : Form
     {
@@ -78,6 +78,8 @@ namespace JinrikiVocaloidVoiceBankHelper
             set { checkBoxMatchFullWord.Checked = value; }
         }
 
+        public AuditionController AuditionController { get; private set; }
+
         public const string LAST = "LAST";
         public const string SETTINGS = "Settings";
         public const string LAST_AUDIO_PATH = "lastAudioPath";
@@ -98,6 +100,8 @@ namespace JinrikiVocaloidVoiceBankHelper
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            AuditionController.Dispose();
+
             //保存数据
             conf.Write(LAST_AUDIO_PATH, AudioPath, LAST);
             conf.Write(LAST_VOICE_PATH, VoicePath, LAST);
@@ -109,14 +113,18 @@ namespace JinrikiVocaloidVoiceBankHelper
             conf.Write(LAST_FLOAT_Y, formFloat.Location.Y.ToString(), LAST);
             conf.Write(LAST_MATCH_FULL_WORD, (checkBoxMatchFullWord.Checked).ToString(), LAST);
 
-            conf.Write(ID_OpenFileWaitTimeFactor, AuditionAutomator.OpenFileWaitTimeFactor.ToString(), SETTINGS);
+            conf.Write(ID_OpenFileWaitTimeFactor, AuditionKeyboardController.OpenFileWaitTimeFactor.ToString(), SETTINGS);
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+
+#if DEBUG
+            VisualStudioDebugHelper.InstallExtesion();
+#endif
             formFloat = new FormFloat(this);
             formFloat.Show();
-
+            
             //载入上次数据
             AudioPath = conf.Read(LAST_AUDIO_PATH, LAST);
             Index = conf.Read2<int>(LAST_INDEX, LAST);
@@ -124,21 +132,21 @@ namespace JinrikiVocaloidVoiceBankHelper
             txtSearch.Text = conf.Read(LAST_SEARCH, LAST);
             Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_X, LAST));
             formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
-            AuditionAutomator.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
+            AuditionKeyboardController.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
             FullMatch = conf.Read2<bool>(LAST_MATCH_FULL_WORD);
-
+            
+            //初始化
             helper = new SearchHelper(AudioPath);
+            AuditionController = new AuditionExtendScriptController();
             result = helper.SearchPinYin(txtSearch.Text, FullMatch);
             //按速度升序排序
             Array.Sort(result);
             Array.Reverse(result);
             RefreshList();
-
+            
             btnSearch_Click(null, null);
 
             //注册热键
-            kbd.RegisterHotKey(Util.ModifierKeys.Alt, Keys.Right); //下一个文件
-            kbd.RegisterHotKey(Util.ModifierKeys.Alt, Keys.Left); //上一个文件 
             kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.Right); //下一个位置
             kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.Left); //上一个位置
             //Ctrl + R 重载当前选区
@@ -154,22 +162,14 @@ namespace JinrikiVocaloidVoiceBankHelper
 
             kbd.KeyPressed += Kbd_KeyPressed;
 
-       
         }
 
         private void Kbd_KeyPressed(object sender, KeyPressedEventArgs e)
         {
             Sleep(400); //避免太快，用户还没来得及放开上一个快捷键
 
-            //下一个文件
-            if (e.Key == Keys.Right && e.Modifier == Util.ModifierKeys.Alt)
-                NextFile();
-            //上一个文件 
-            else if (e.Key == Keys.Left && e.Modifier == Util.ModifierKeys.Alt)
-                PrevFile();
-
             //下一个
-            else if (e.Key == Keys.Right && e.Modifier == Util.ModifierKeys.Control)
+            if (e.Key == Keys.Right && e.Modifier == Util.ModifierKeys.Control)
             {
                 MoveNext();
                 LoadCurrent();
@@ -208,7 +208,7 @@ namespace JinrikiVocaloidVoiceBankHelper
             else if (e.Key == Keys.E && e.Modifier == Util.ModifierKeys.Control)
             {
                 string input = "";
-                UIUtil.ShowInputDialog(ref input);
+                UIHelper.ShowInputDialog(ref input);
                 int newIndex = -1;
                 int.TryParse(input, out newIndex);
                 if(newIndex != -1)
@@ -267,26 +267,16 @@ namespace JinrikiVocaloidVoiceBankHelper
         /// </summary>
         private void LoadCurrent()
         {
-            AuditionAutomator.EnsureActived();
+            AuditionKeyboardController.EnsureActived();
             formFloat.UpdateUI();
 
             //检测重复打开的情况
             string audioPath = System.IO.Path.ChangeExtension(result[Index].FilePath, ".mp3");
             if (lastFile != audioPath)
                 OpenFile(audioPath);
-            
 
-            Select(result[Index].StartTime, result[Index].EndTime);
-        }
 
-        private void NextFile()
-        {
-
-        }
-
-        private void PrevFile()
-        {
-
+            AuditionController.Select(result[Index].StartTime, result[Index].EndTime);
         }
 
         /// <summary>
@@ -299,60 +289,7 @@ namespace JinrikiVocaloidVoiceBankHelper
             if(!alternativeMode)
                 lastFile = path;
 
-            AuditionAutomator.OpenFile(path);
-        }
-
-        private void Seek(string time)
-        {
-            ResetFocus();
-
-            //Shift + TAB 移动到时间显示处
-            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
-            Sleep();
-
-            //粘贴时间
-            Clipboard.SetText(time.Replace(",", ".")); //srt 和 au 的时间格式有点不一样，需要转换
-            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_A);
-            Sleep();
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.BACK);
-            Sleep();
-
-            simulator.Keyboard.TextEntry(time.Replace(",", "."));
-            Sleep();
-            
-            //Enter 确认
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.RETURN);
-            Sleep();
-
-            ResetFocus();
-        }
-
-        private void Select(string startTime, string endTime)
-        {
-            Seek(startTime);
-            Sleep();
-            //I 设置为入点
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_I);
-            Seek(endTime);
-            Sleep();
-            //O 设置为出点
-            simulator.Keyboard.ModifiedKeyStroke(null, VirtualKeyCode.VK_O);
-            Sleep();
-            //移动回开头
-            Seek(startTime);
-            Sleep();
-            //缩放为选区
-            simulator.Keyboard.ModifiedKeyStroke(VirtualKeyCode.SHIFT, VirtualKeyCode.VK_S);
-        }
-
-        //重置编辑面板焦点
-        //希望有更好的方法
-        private void ResetFocus()
-        {
-            //Alt + 1 关闭编辑面板
-            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
-            //Alt + 1 再打开编辑面板
-            simulator.Keyboard.ModifiedKeyStroke((VirtualKeyCode)0x12, VirtualKeyCode.VK_1);
+            AuditionController.OpenFile(path);
         }
 
         private void Sleep(int time=100)
@@ -427,8 +364,8 @@ namespace JinrikiVocaloidVoiceBankHelper
                 if(stopwatch.IsRunning && e2.Key == Keys.N && e2.Modifier == (Util.ModifierKeys.Control | Util.ModifierKeys.Alt))
                 {
                     stopwatch.Stop();
-                    AuditionAutomator.OpenFileWaitTimeFactor = new FileInfo(result[0].FilePath).Length / stopwatch.Elapsed.TotalSeconds;
-                    UIUtil.ShowBalloon("音源辅助工具", "等待时间因子已保存：" + AuditionAutomator.OpenFileWaitTimeFactor);
+                    AuditionKeyboardController.OpenFileWaitTimeFactor = new FileInfo(result[0].FilePath).Length / stopwatch.Elapsed.TotalSeconds;
+                    UIHelper.ShowBalloon("音源辅助工具", "等待时间因子已保存：" + AuditionKeyboardController.OpenFileWaitTimeFactor);
                     stopwatch.Reset();
                 }
             };

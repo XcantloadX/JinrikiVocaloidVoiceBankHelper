@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using NPinyin;
 
-namespace JinrikiVocaloidVoiceBankHelper.Core
+namespace JinrikiVocaloidVBHelper.Core
 {
     /// <summary>
     /// srt 字幕文件读取器

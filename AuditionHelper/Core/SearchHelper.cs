@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace JinrikiVocaloidVoiceBankHelper.Core
+namespace JinrikiVocaloidVBHelper.Core
 {
     /// <summary>
     /// 字幕搜索助手

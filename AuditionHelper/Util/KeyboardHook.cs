@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace JinrikiVocaloidVoiceBankHelper.Util
+namespace JinrikiVocaloidVBHelper.Util
 {
     public sealed class KeyboardHook : IDisposable
     {

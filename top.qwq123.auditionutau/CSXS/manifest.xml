@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- 1) -->
+<ExtensionManifest ExtensionBundleId="top.qwq123.auditionuatu" ExtensionBundleVersion="1.0.0" Version="4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ExtensionList>
+    <!-- 2) -->
+    <Extension Id="top.qwq123.auditionuatu.panel" Version="1.0.0" >
+      			<HostList>
+	            <Host Name="AUDT" Port="8000"/>
+	        </HostList>
+    </Extension>
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <!-- 3) -->
+      <Host Name="AUDT" Version="9.2.0" />
+    </HostList>
+    <LocaleList>
+      <Locale Code="All" />
+    </LocaleList>
+    <RequiredRuntimeList>
+      <RequiredRuntime Name="CSXS" Version="6.0" />
+    </RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <!-- 2) -->
+    <Extension Id="top.qwq123.auditionuatu.panel">
+      <DispatchInfo>
+        <Resources>
+          <!-- 4) -->
+          <MainPath>./index.html</MainPath>
+          <!-- 5) -->
+          <ScriptPath>./auto.jsx</ScriptPath>
+          <CEFCommandLine />
+        </Resources>
+        <Lifecycle>
+          <AutoVisible>true</AutoVisible>
+        </Lifecycle>
+        <UI>
+          <Type>Panel</Type>
+          <!-- 6) -->
+          <Menu>UTAU 音源制作助手 Audition 扩展</Menu>
+          <Geometry>
+            <Size>
+              <!-- 7) -->
+              <Height>500</Height>
+              <Width>350</Width>
+            </Size>
+          </Geometry>
+          <Icons />
+        </UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>

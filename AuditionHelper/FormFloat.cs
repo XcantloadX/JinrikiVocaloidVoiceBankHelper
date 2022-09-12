@@ -1,4 +1,4 @@
-﻿using JinrikiVocaloidVoiceBankHelper.Core;
+﻿using JinrikiVocaloidVBHelper.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,35 +9,37 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace JinrikiVocaloidVoiceBankHelper
+namespace JinrikiVocaloidVBHelper
 {
     public partial class FormFloat : Form
     {
         private FormMain mainForm;
         private string originalTitle;
+        private AuditionController controller;
 
         public FormFloat(FormMain mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
             originalTitle = Text;
+            controller = mainForm.AuditionController;
         }
 
         private void btnSaveSelection_Click(object sender, EventArgs e)
         {
             string fileName = mainForm.NextVoiceFileName;
-            AuditionAutomator.SaveSelection(fileName, mainForm.VoicePath);
-            UIUtil.ShowBalloon("已保存文件", fileName + ".wav");
+            controller.SaveSelection(fileName, mainForm.VoicePath);
+            UIHelper.ShowBalloon("已保存文件", fileName + ".wav");
         }
 
         private void btnSaveSelectionAs_Click(object sender, EventArgs e)
         {
             string name = "";
-            if(UIUtil.ShowInputDialog(ref name, "请输入发音名（不带 .wav，不带数字序号）") == DialogResult.OK)
+            if(UIHelper.ShowInputDialog(ref name, "请输入发音名（不带 .wav，不带数字序号）") == DialogResult.OK)
             {
                 string fileName = mainForm.GetNextVoiceFileName(name);
-                AuditionAutomator.SaveSelection(fileName, mainForm.VoicePath);
-                UIUtil.ShowBalloon("已保存文件", fileName);
+                controller.SaveSelection(fileName, mainForm.VoicePath);
+                UIHelper.ShowBalloon("已保存文件", fileName);
             }
 
         }
@@ -56,7 +58,7 @@ namespace JinrikiVocaloidVoiceBankHelper
 
         private void timerTopWindowDetector_Tick(object sender, EventArgs e)
         {
-            Visible = AuditionAutomator.IsAuditionActive;
+            Visible = AuditionKeyboardController.IsAuditionActive;
         }
     }
 }

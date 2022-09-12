@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 // Change this to match your program's normal namespace
-namespace JinrikiVocaloidVoiceBankHelper.Util
+namespace JinrikiVocaloidVBHelper.Util
 {
     class IniFile   // revision 11
     {
