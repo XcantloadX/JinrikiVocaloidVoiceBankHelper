@@ -45,6 +45,11 @@
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新建素材库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开素材库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.最近打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.扫描新文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.自动切分ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.剪切剪映字幕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,9 +125,9 @@
             this.lblOutPath.AutoSize = true;
             this.lblOutPath.Location = new System.Drawing.Point(143, 50);
             this.lblOutPath.Name = "lblOutPath";
-            this.lblOutPath.Size = new System.Drawing.Size(55, 15);
+            this.lblOutPath.Size = new System.Drawing.Size(22, 15);
             this.lblOutPath.TabIndex = 8;
-            this.lblOutPath.Text = "label4";
+            this.lblOutPath.Text = "空";
             // 
             // btnOpenOutPath
             // 
@@ -141,9 +146,9 @@
             this.lblAudioPath.AutoSize = true;
             this.lblAudioPath.Location = new System.Drawing.Point(143, 18);
             this.lblAudioPath.Name = "lblAudioPath";
-            this.lblAudioPath.Size = new System.Drawing.Size(55, 15);
+            this.lblAudioPath.Size = new System.Drawing.Size(22, 15);
             this.lblAudioPath.TabIndex = 6;
-            this.lblAudioPath.Text = "label3";
+            this.lblAudioPath.Text = "空";
             // 
             // lblIndex
             // 
@@ -217,6 +222,11 @@
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.新建素材库ToolStripMenuItem,
             this.打开素材库ToolStripMenuItem,
+            this.最近打开ToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.扫描新文件ToolStripMenuItem,
+            this.自动切分ToolStripMenuItem,
+            this.toolStripSeparator2,
             this.退出ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
             this.文件ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
@@ -225,19 +235,49 @@
             // 新建素材库ToolStripMenuItem
             // 
             this.新建素材库ToolStripMenuItem.Name = "新建素材库ToolStripMenuItem";
-            this.新建素材库ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.新建素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.新建素材库ToolStripMenuItem.Text = "新建素材库...";
+            this.新建素材库ToolStripMenuItem.Click += new System.EventHandler(this.新建素材库ToolStripMenuItem_Click);
             // 
             // 打开素材库ToolStripMenuItem
             // 
             this.打开素材库ToolStripMenuItem.Name = "打开素材库ToolStripMenuItem";
-            this.打开素材库ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.打开素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.打开素材库ToolStripMenuItem.Text = "打开素材库...";
+            this.打开素材库ToolStripMenuItem.Click += new System.EventHandler(this.打开素材库ToolStripMenuItem_Click);
+            // 
+            // 最近打开ToolStripMenuItem
+            // 
+            this.最近打开ToolStripMenuItem.Name = "最近打开ToolStripMenuItem";
+            this.最近打开ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.最近打开ToolStripMenuItem.Text = "最近打开";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(168, 6);
+            // 
+            // 扫描新文件ToolStripMenuItem
+            // 
+            this.扫描新文件ToolStripMenuItem.Name = "扫描新文件ToolStripMenuItem";
+            this.扫描新文件ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.扫描新文件ToolStripMenuItem.Text = "扫描新文件";
+            // 
+            // 自动切分ToolStripMenuItem
+            // 
+            this.自动切分ToolStripMenuItem.Name = "自动切分ToolStripMenuItem";
+            this.自动切分ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.自动切分ToolStripMenuItem.Text = "自动切分";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -288,13 +328,13 @@
             // 访问官网ToolStripMenuItem
             // 
             this.访问官网ToolStripMenuItem.Name = "访问官网ToolStripMenuItem";
-            this.访问官网ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.访问官网ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.访问官网ToolStripMenuItem.Text = "访问官网";
             // 
             // 关于ToolStripMenuItem1
             // 
             this.关于ToolStripMenuItem1.Name = "关于ToolStripMenuItem1";
-            this.关于ToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.关于ToolStripMenuItem1.Size = new System.Drawing.Size(144, 26);
             this.关于ToolStripMenuItem1.Text = "关于";
             this.关于ToolStripMenuItem1.Click += new System.EventHandler(this.关于ToolStripMenuItem1_Click);
             // 
@@ -436,6 +476,11 @@
         private System.Windows.Forms.ColumnHeader columnHeaderSpeed;
         private System.Windows.Forms.ColumnHeader columnHeaderName;
         private System.Windows.Forms.ColumnHeader columnHeaderTag;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem 扫描新文件ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 自动切分ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem 最近打开ToolStripMenuItem;
     }
 }
 

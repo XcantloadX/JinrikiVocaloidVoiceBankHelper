@@ -9,8 +9,9 @@ using JinrikiVocaloidVBHelper.Util;
 using System.Text.RegularExpressions;
 using AuditionHelper.Core;
 using Newtonsoft.Json;
+using JinrikiVocaloidVBHelper.Audition;
 
-namespace AuditionHelper.Core
+namespace AuditionHelper.Audition
 {
     /// <summary>
     /// 基于 ExtendScript 来操作 Audition

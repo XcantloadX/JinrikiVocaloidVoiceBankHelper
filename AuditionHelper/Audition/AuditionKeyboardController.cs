@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using WindowsInput;
 using WindowsInput.Native;
 
-namespace JinrikiVocaloidVBHelper.Core
+namespace JinrikiVocaloidVBHelper.Audition
 {
     public class AuditionKeyboardController : AuditionController
     {

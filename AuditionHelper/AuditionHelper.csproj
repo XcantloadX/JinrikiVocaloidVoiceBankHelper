@@ -64,11 +64,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\AuditionKeyboardController.cs" />
-    <Compile Include="Core\AuditionController.cs" />
-    <Compile Include="Core\AuditionExtendScriptController.cs" />
+    <Compile Include="Audition\AuditionKeyboardController.cs" />
+    <Compile Include="Audition\AuditionController.cs" />
+    <Compile Include="Audition\AuditionExtendScriptController.cs" />
+    <Compile Include="Core\LibraryObject.cs" />
+    <Compile Include="Core\MaterialLibrary.cs" />
     <Compile Include="Core\MFAHelper.cs" />
     <Compile Include="Core\TextGridReader.cs" />
+    <Compile Include="FileOperation\CharacterReader.cs" />
+    <Compile Include="FileOperation\XmlSerialize.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>

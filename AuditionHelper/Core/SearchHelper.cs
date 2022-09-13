@@ -10,7 +10,7 @@ namespace JinrikiVocaloidVBHelper.Core
     /// <summary>
     /// 字幕搜索助手
     /// </summary>
-    internal class SearchHelper
+    public class SearchHelper
     {
         //字幕文件内容
         private Dictionary<string, SrtLine[]> subtitles;

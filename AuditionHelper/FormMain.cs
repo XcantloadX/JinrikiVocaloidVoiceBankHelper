@@ -11,12 +11,13 @@ using System.Text.RegularExpressions;
 using JinrikiVocaloidVBHelper.Util;
 using JinrikiVocaloidVBHelper.Core;
 using AuditionHelper.Core;
+using JinrikiVocaloidVBHelper.Audition;
+using AuditionHelper.Audition;
 
 namespace JinrikiVocaloidVBHelper
 {
     public partial class FormMain : Form
     {
-        private SearchHelper helper;
         private KeyboardHook kbd = new KeyboardHook();
         private InputSimulator simulator = new InputSimulator();
         private SrtLine[] result = null;
@@ -39,19 +40,7 @@ namespace JinrikiVocaloidVBHelper
             }
         }
         private string lastFile = "";
-        /// <summary>
-        /// 音源文件夹
-        /// </summary>
-        public string VoicePath
-        {
-            get { return lblOutPath.Text; }
-            set { lblOutPath.Text = value; }
-        }
-        public string AudioPath
-        {
-            get { return lblAudioPath.Text; }
-            set { lblAudioPath.Text = value; }
-        }
+        public MaterialLibrary CurrentLibrary { get; set; }
         private FormFloat formFloat;
         /// <summary>
         /// 当前正在编辑的音源名称
@@ -82,8 +71,7 @@ namespace JinrikiVocaloidVBHelper
 
         public const string LAST = "LAST";
         public const string SETTINGS = "Settings";
-        public const string LAST_AUDIO_PATH = "lastAudioPath";
-        public const string LAST_VOICE_PATH = "lastVoicePath";
+        public const string LAST_LIB = "lastLibrary";
         public const string LAST_SEARCH = "lastSearch";
         public const string LAST_INDEX = "lastIndex";
         public const string LAST_MATCH_FULL_WORD = "lastMatchFullWord";
@@ -103,8 +91,7 @@ namespace JinrikiVocaloidVBHelper
             AuditionController.Dispose();
 
             //保存数据
-            conf.Write(LAST_AUDIO_PATH, AudioPath, LAST);
-            conf.Write(LAST_VOICE_PATH, VoicePath, LAST);
+            conf.Write(LAST_LIB, CurrentLibrary.ConfigPath, LAST);
             conf.Write(LAST_SEARCH, txtSearch.Text, LAST);
             conf.Write(LAST_INDEX, Index.ToString(), LAST);
             conf.Write(LAST_MAIN_X, Location.X.ToString(), LAST);
@@ -124,11 +111,10 @@ namespace JinrikiVocaloidVBHelper
 #endif
             formFloat = new FormFloat(this);
             formFloat.Show();
-            
+
             //载入上次数据
-            AudioPath = conf.Read(LAST_AUDIO_PATH, LAST);
+            CurrentLibrary = MaterialLibrary.Read(conf.Read(LAST_LIB, LAST));
             Index = conf.Read2<int>(LAST_INDEX, LAST);
-            VoicePath = conf.Read(LAST_VOICE_PATH, LAST);
             txtSearch.Text = conf.Read(LAST_SEARCH, LAST);
             Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_X, LAST));
             formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
@@ -136,15 +122,16 @@ namespace JinrikiVocaloidVBHelper
             FullMatch = conf.Read2<bool>(LAST_MATCH_FULL_WORD);
             
             //初始化
-            helper = new SearchHelper(AudioPath);
             AuditionController = new AuditionExtendScriptController();
-            result = helper.SearchPinYin(txtSearch.Text, FullMatch);
-            //按速度升序排序
-            Array.Sort(result);
-            Array.Reverse(result);
-            RefreshList();
-            
-            btnSearch_Click(null, null);
+            if(CurrentLibrary.SearchHelper != null)
+            {
+                result = CurrentLibrary.SearchHelper.SearchPinYin(txtSearch.Text, FullMatch);
+                //按速度升序排序
+                Array.Sort(result);
+                Array.Reverse(result);
+                RefreshList();
+                btnSearch_Click(null, null);
+            }
 
             //注册热键
             kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.Right); //下一个位置
@@ -225,12 +212,12 @@ namespace JinrikiVocaloidVBHelper
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "打开源音频文件夹";
-            dialog.SelectedPath = AudioPath;
+            dialog.SelectedPath = CurrentLibrary.AudioPath;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                AudioPath = dialog.SelectedPath;
-                lblAudioPath.Text = AudioPath;
-                helper = new SearchHelper(AudioPath);
+                CurrentLibrary.AudioPath = dialog.SelectedPath;
+                lblAudioPath.Text = CurrentLibrary.AudioPath;
+                //helper = new SearchHelper(CurrentLibrary.AudioPath);
             }
             dialog.Dispose();
         }
@@ -303,7 +290,7 @@ namespace JinrikiVocaloidVBHelper
         /// <returns></returns>
         public string GetNextVoiceFileName(string voiceName)
         {
-            DirectoryInfo dir = new DirectoryInfo(VoicePath);
+            DirectoryInfo dir = new DirectoryInfo(CurrentLibrary.VoicePath);
             FileInfo[] files = dir.GetFiles();
             var voices =
                 (from file in files
@@ -313,12 +300,38 @@ namespace JinrikiVocaloidVBHelper
             return voiceName + (voices.Length == 0 ? "" : (voices.Length + 1).ToString());
         }
 
-#region UI 事件
+
+        #region 操作方法
+
+        /// <summary>
+        /// 打开指定的素材库
+        /// </summary>
+        /// <param name="lib"></param>
+        public void OpenLibrary(MaterialLibrary lib)
+        {
+            CurrentLibrary = lib;
+            btnSearch_Click(null, null);
+        }
+
+        public void OpenLibrary(string libConfigPath)
+        {
+            OpenLibrary(MaterialLibrary.Read(libConfigPath));
+        }
+
+        #endregion
+
+
+        #region UI 事件
         //搜索
         private void btnSearch_Click(object sender, EventArgs e)
         {
             Index = 0;
-            result = helper.SearchPinYin(txtSearch.Text, FullMatch);
+            if(CurrentLibrary == null || CurrentLibrary.SearchHelper == null)
+            {
+                MessageBox.Show("未打开任何素材库或素材库无效！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            result = CurrentLibrary.SearchHelper.SearchPinYin(txtSearch.Text, FullMatch);
             //按速度升序排序
             Array.Sort(result);
             Array.Reverse(result);
@@ -349,12 +362,12 @@ namespace JinrikiVocaloidVBHelper
         private void btnOpenOutPath_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.SelectedPath = VoicePath;
+            dialog.SelectedPath = CurrentLibrary.VoicePath;
             dialog.Description = "打开音源文件夹";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                VoicePath = dialog.SelectedPath;
-                lblOutPath.Text = VoicePath;
+                CurrentLibrary.VoicePath = dialog.SelectedPath;
+                lblOutPath.Text = CurrentLibrary.VoicePath;
             }
             dialog.Dispose();
         }
@@ -405,9 +418,6 @@ namespace JinrikiVocaloidVBHelper
             LoadCurrent();
         }
 
-
-        #endregion
-
         private void listView1_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
@@ -449,5 +459,53 @@ namespace JinrikiVocaloidVBHelper
         {
             MessageBox.Show("UTAU 人力音源制作助手 v0.0.1\n本程序以 GPLv2 协议开源。", "关于", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void 新建素材库ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string voice = "", audio = "";
+
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "选择音源文件夹";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                voice = dialog.SelectedPath;
+            }
+            else { return; }
+            dialog.Dispose();
+
+            if (File.Exists(Path.Combine(voice, MaterialLibrary.CONFIG_FILE_NAME)))
+            {
+                DialogResult r = MessageBox.Show("此文件夹下已有素材库配置文件，是否覆盖？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (r == DialogResult.No)
+                    return;
+            }
+
+            FolderBrowserDialog dialog2 = new FolderBrowserDialog();
+            dialog2.Description = "选择素材文件夹";
+            if (dialog2.ShowDialog() == DialogResult.OK)
+            {
+                audio = dialog2.SelectedPath;
+            }
+            else { return; }
+            dialog2.Dispose();
+
+            MaterialLibrary lib = MaterialLibrary.Create(audio, voice);
+            OpenLibrary(lib);
+        }
+
+        private void 打开素材库ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "素材库配置文件(*.vbh)|*.vbh";
+            dialog.Title = "请选择素材库配置文件（默认放在音源文件夹中）";
+            if(dialog.ShowDialog() == DialogResult.OK)
+            {
+                OpenLibrary(dialog.FileName);
+            }
+        }
+
+        #endregion
+
+
     }
 }

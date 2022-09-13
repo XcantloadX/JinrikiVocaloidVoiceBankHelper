@@ -90,7 +90,7 @@
             this.Name = "FormFloat";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "音源制作 工具栏";
+            this.Text = "工具栏";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.FormFloat_Load);
             this.ResumeLayout(false);

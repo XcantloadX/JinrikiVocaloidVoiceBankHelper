@@ -1,4 +1,5 @@
-﻿using JinrikiVocaloidVBHelper.Core;
+﻿using JinrikiVocaloidVBHelper.Audition;
+using JinrikiVocaloidVBHelper.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +29,7 @@ namespace JinrikiVocaloidVBHelper
         private void btnSaveSelection_Click(object sender, EventArgs e)
         {
             string fileName = mainForm.NextVoiceFileName;
-            controller.SaveSelection(fileName, mainForm.VoicePath);
+            controller.SaveSelection(fileName, mainForm.CurrentLibrary.VoicePath);
             UIHelper.ShowBalloon("已保存文件", fileName + ".wav");
         }
 
@@ -38,7 +39,7 @@ namespace JinrikiVocaloidVBHelper
             if(UIHelper.ShowInputDialog(ref name, "请输入发音名（不带 .wav，不带数字序号）") == DialogResult.OK)
             {
                 string fileName = mainForm.GetNextVoiceFileName(name);
-                controller.SaveSelection(fileName, mainForm.VoicePath);
+                controller.SaveSelection(fileName, mainForm.CurrentLibrary.VoicePath);
                 UIHelper.ShowBalloon("已保存文件", fileName);
             }
 
