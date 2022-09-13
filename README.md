@@ -14,4 +14,11 @@
 ## 编译
 使用 Visual Studio 2015 打开本项目，直接编译即可。  
 需要注意的是，需要你手动把`tools\VvTalk.7z`解压到编译后程序所在目录  
+下载地址：  
 即需要出现这个目录 `tools\VvTalk`
+
+## 感谢
+本项目参考/引用了一下项目/软件：  
+* VvTalk
+* setParam
+* [Adobe Extension Samples](https://github.com/Adobe-CEP/Samples)

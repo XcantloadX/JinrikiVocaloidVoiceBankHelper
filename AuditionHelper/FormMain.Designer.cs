@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1110");
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxMatchFullWord = new System.Windows.Forms.CheckBox();
             this.lblWaitTimeFactor = new System.Windows.Forms.Label();
@@ -41,8 +41,6 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnOpenAudio = new System.Windows.Forms.Button();
-            this.listFiles = new System.Windows.Forms.ListBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新建素材库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,9 +49,23 @@
             this.工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.剪切剪映字幕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开浮动工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.访问官网ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeaderIndex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderSpeed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderTag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -69,9 +81,9 @@
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.btnOpenAudio);
-            this.panel1.Location = new System.Drawing.Point(0, 31);
+            this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(849, 164);
+            this.panel1.Size = new System.Drawing.Size(815, 164);
             this.panel1.TabIndex = 0;
             // 
             // checkBoxMatchFullWord
@@ -137,7 +149,7 @@
             // 
             this.lblIndex.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblIndex.AutoSize = true;
-            this.lblIndex.Location = new System.Drawing.Point(418, 81);
+            this.lblIndex.Location = new System.Drawing.Point(384, 81);
             this.lblIndex.Name = "lblIndex";
             this.lblIndex.Size = new System.Drawing.Size(23, 15);
             this.lblIndex.TabIndex = 5;
@@ -147,7 +159,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(345, 81);
+            this.label1.Location = new System.Drawing.Point(311, 81);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 4;
@@ -161,13 +173,13 @@
             this.txtSearch.Location = new System.Drawing.Point(12, 75);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(231, 25);
+            this.txtSearch.Size = new System.Drawing.Size(197, 25);
             this.txtSearch.TabIndex = 3;
             // 
             // btnSearch
             // 
             this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnSearch.Location = new System.Drawing.Point(266, 75);
+            this.btnSearch.Location = new System.Drawing.Point(232, 75);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(64, 26);
             this.btnSearch.TabIndex = 2;
@@ -185,20 +197,6 @@
             this.btnOpenAudio.Text = "设置音频文件夹";
             this.btnOpenAudio.UseVisualStyleBackColor = true;
             this.btnOpenAudio.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // listFiles
-            // 
-            this.listFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listFiles.FormattingEnabled = true;
-            this.listFiles.ItemHeight = 15;
-            this.listFiles.Location = new System.Drawing.Point(0, 215);
-            this.listFiles.Name = "listFiles";
-            this.listFiles.Size = new System.Drawing.Size(849, 409);
-            this.listFiles.TabIndex = 1;
-            this.listFiles.DoubleClick += new System.EventHandler(this.listFiles_DoubleClick);
-            this.listFiles.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.listFiles_KeyPress);
             // 
             // menuStrip1
             // 
@@ -227,19 +225,19 @@
             // 新建素材库ToolStripMenuItem
             // 
             this.新建素材库ToolStripMenuItem.Name = "新建素材库ToolStripMenuItem";
-            this.新建素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.新建素材库ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.新建素材库ToolStripMenuItem.Text = "新建素材库...";
             // 
             // 打开素材库ToolStripMenuItem
             // 
             this.打开素材库ToolStripMenuItem.Name = "打开素材库ToolStripMenuItem";
-            this.打开素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
-            this.打开素材库ToolStripMenuItem.Text = "打开素材库";
+            this.打开素材库ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.打开素材库ToolStripMenuItem.Text = "打开素材库...";
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -247,7 +245,9 @@
             // 
             this.工具ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.剪切剪映字幕ToolStripMenuItem,
-            this.打开浮动工具栏ToolStripMenuItem});
+            this.打开浮动工具栏ToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.选项ToolStripMenuItem});
             this.工具ToolStripMenuItem.Name = "工具ToolStripMenuItem";
             this.工具ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.工具ToolStripMenuItem.Text = "工具";
@@ -256,7 +256,7 @@
             // 
             this.剪切剪映字幕ToolStripMenuItem.Name = "剪切剪映字幕ToolStripMenuItem";
             this.剪切剪映字幕ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
-            this.剪切剪映字幕ToolStripMenuItem.Text = "剪切剪映字幕";
+            this.剪切剪映字幕ToolStripMenuItem.Text = "剪映字幕处理";
             // 
             // 打开浮动工具栏ToolStripMenuItem
             // 
@@ -265,11 +265,118 @@
             this.打开浮动工具栏ToolStripMenuItem.Text = "打开浮动工具栏";
             this.打开浮动工具栏ToolStripMenuItem.Click += new System.EventHandler(this.打开浮动工具栏ToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
+            // 
+            // 选项ToolStripMenuItem
+            // 
+            this.选项ToolStripMenuItem.Name = "选项ToolStripMenuItem";
+            this.选项ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.选项ToolStripMenuItem.Text = "选项...";
+            // 
             // 关于ToolStripMenuItem
             // 
+            this.关于ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.访问官网ToolStripMenuItem,
+            this.关于ToolStripMenuItem1});
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
             this.关于ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
-            this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Text = "帮助";
+            // 
+            // 访问官网ToolStripMenuItem
+            // 
+            this.访问官网ToolStripMenuItem.Name = "访问官网ToolStripMenuItem";
+            this.访问官网ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.访问官网ToolStripMenuItem.Text = "访问官网";
+            // 
+            // 关于ToolStripMenuItem1
+            // 
+            this.关于ToolStripMenuItem1.Name = "关于ToolStripMenuItem1";
+            this.关于ToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.关于ToolStripMenuItem1.Text = "关于";
+            this.关于ToolStripMenuItem1.Click += new System.EventHandler(this.关于ToolStripMenuItem1_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(12, 31);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(837, 601);
+            this.tabControl1.TabIndex = 13;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.listView1);
+            this.tabPage1.Controls.Add(this.panel1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(829, 572);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "搜索";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // listView1
+            // 
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderIndex,
+            this.columnHeaderSpeed,
+            this.columnHeaderName,
+            this.columnHeaderTag});
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
+            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1});
+            this.listView1.Location = new System.Drawing.Point(6, 176);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(817, 390);
+            this.listView1.TabIndex = 2;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
+            this.listView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyUp);
+            // 
+            // columnHeaderIndex
+            // 
+            this.columnHeaderIndex.Text = "序号";
+            this.columnHeaderIndex.Width = 40;
+            // 
+            // columnHeaderSpeed
+            // 
+            this.columnHeaderSpeed.Text = "语速";
+            this.columnHeaderSpeed.Width = 50;
+            // 
+            // columnHeaderName
+            // 
+            this.columnHeaderName.Text = "拼音";
+            this.columnHeaderName.Width = 400;
+            // 
+            // columnHeaderTag
+            // 
+            this.columnHeaderTag.Text = "标签";
+            this.columnHeaderTag.Width = 150;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(829, 572);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "编辑";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -277,8 +384,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(849, 637);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.listFiles);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.tabControl1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "UATU 音源制作助手";
@@ -288,6 +394,8 @@
             this.panel1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,10 +405,8 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnOpenAudio;
-        private System.Windows.Forms.ListBox listFiles;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label lblOutPath;
         private System.Windows.Forms.Button btnOpenOutPath;
         private System.Windows.Forms.Label lblAudioPath;
@@ -318,6 +424,18 @@
         private System.Windows.Forms.ToolStripMenuItem 剪切剪映字幕ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开浮动工具栏ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem 选项ToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.ToolStripMenuItem 访问官网ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeaderIndex;
+        private System.Windows.Forms.ColumnHeader columnHeaderSpeed;
+        private System.Windows.Forms.ColumnHeader columnHeaderName;
+        private System.Windows.Forms.ColumnHeader columnHeaderTag;
     }
 }
 

@@ -33,8 +33,8 @@ namespace JinrikiVocaloidVBHelper
             set
             {
                 _index = value;
-                if(_index < listFiles.Items.Count)
-                    listFiles.SelectedIndex = value;
+                if (_index < listView1.Items.Count)
+                    listView1.Items[value].Selected = true;
                 lblIndex.Text = value.ToString();
             }
         }
@@ -223,10 +223,9 @@ namespace JinrikiVocaloidVBHelper
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "打开源音频文件夹";
+            dialog.SelectedPath = AudioPath;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 AudioPath = dialog.SelectedPath;
@@ -326,22 +325,31 @@ namespace JinrikiVocaloidVBHelper
             RefreshList();
         }
 
+        /// <summary>
+        /// 刷新列表，在修改 result 变量之后调用
+        /// </summary>
         private void RefreshList()
         {
-            listFiles.Items.Clear();
+            listView1.Items.Clear();
+            listView1.BeginUpdate();
             int i = 0;
             foreach (var line in result)
             {
-                listFiles.Items.Add(i + "|" + Math.Round(line.Speed, 1) + " | " + line.ContentPinYin.Replace(txtSearch.Text, string.Format("[{0}]", txtSearch.Text)));
+                ListViewItem item = listView1.Items.Add(i.ToString()); //序号
+
+                item.SubItems.Add(Math.Round(line.Speed, 1).ToString()); //语速
+                item.SubItems.Add(line.ContentPinYin.Replace(txtSearch.Text, string.Format("[{0}]", txtSearch.Text))); //拼音
+                item.SubItems.Add(""); //标签
                 i++;
             }
-            
+            listView1.EndUpdate();
         }
 
         //设置音源文件夹
         private void btnOpenOutPath_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.SelectedPath = VoicePath;
             dialog.Description = "打开音源文件夹";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -351,9 +359,6 @@ namespace JinrikiVocaloidVBHelper
             dialog.Dispose();
         }
 
-
-        #endregion
-
         private void btnRecordWaitTimeFactor_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
@@ -361,7 +366,7 @@ namespace JinrikiVocaloidVBHelper
             kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Alt, Keys.N);
             kbd.KeyPressed += (object sender2, KeyPressedEventArgs e2) =>
             {
-                if(stopwatch.IsRunning && e2.Key == Keys.N && e2.Modifier == (Util.ModifierKeys.Control | Util.ModifierKeys.Alt))
+                if (stopwatch.IsRunning && e2.Key == Keys.N && e2.Modifier == (Util.ModifierKeys.Control | Util.ModifierKeys.Alt))
                 {
                     stopwatch.Stop();
                     AuditionKeyboardController.OpenFileWaitTimeFactor = new FileInfo(result[0].FilePath).Length / stopwatch.Elapsed.TotalSeconds;
@@ -374,19 +379,43 @@ namespace JinrikiVocaloidVBHelper
             OpenFile(Path.ChangeExtension(result[0].FilePath, ".mp3"), true);
         }
 
-        private void listFiles_DoubleClick(object sender, EventArgs e)
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            Index = listFiles.SelectedIndex;
+
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void 打开浮动工具栏ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (formFloat != null)
+            {
+                formFloat.Dispose();
+                formFloat = new FormFloat(this);
+                formFloat.Show();
+            }
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            Index = listView1.SelectedIndices[0];
             LoadCurrent();
         }
 
-        private void listFiles_KeyPress(object sender, KeyPressEventArgs e)
+
+        #endregion
+
+        private void listView1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == ' ')
+            if (e.KeyCode == Keys.Space)
             {
                 //-i 输入文件 -ss 开始时间 -t 播放长度
 
-                string args = string.Format("-i \"{0}\" -ss {1} -t {2} -autoexit", Path.ChangeExtension(result[listFiles.SelectedIndex].FilePath, ".mp3"), result[listFiles.SelectedIndex].StartTime.Replace(",", "."), result[listFiles.SelectedIndex].Duration);
+                int selectedIndex = listView1.SelectedIndices[0];
+                string args = string.Format("-i \"{0}\" -ss {1} -t {2} -autoexit", Path.ChangeExtension(result[selectedIndex].FilePath, ".mp3"), result[selectedIndex].StartTime.Replace(",", "."), result[selectedIndex].Duration);
 
                 Process p = new Process
                 {
@@ -410,30 +439,15 @@ namespace JinrikiVocaloidVBHelper
                 //process.Start();
                 //process.Dispose();
             }
-            else if(e.KeyChar == '\n')
+            else if (e.KeyCode == Keys.Enter)
             {
-                listFiles_DoubleClick(null, null);
+                listView1_DoubleClick(null, null);
             }
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void 关于ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void 打开浮动工具栏ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if(formFloat != null)
-            {
-                formFloat.Dispose();
-                formFloat = new FormFloat(this);
-                formFloat.Show();
-            }
+            MessageBox.Show("UTAU 人力音源制作助手 v0.0.1\n本程序以 GPLv2 协议开源。", "关于", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
