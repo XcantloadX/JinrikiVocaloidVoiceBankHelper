@@ -109,15 +109,14 @@ namespace JinrikiVocaloidVBHelper
 #if DEBUG
             VisualStudioDebugHelper.InstallExtesion();
 #endif
-            formFloat = new FormFloat(this);
-            formFloat.Show();
+
 
             //载入上次数据
             CurrentLibrary = MaterialLibrary.Read(conf.Read(LAST_LIB, LAST));
             Index = conf.Read2<int>(LAST_INDEX, LAST);
             txtSearch.Text = conf.Read(LAST_SEARCH, LAST);
             Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_X, LAST));
-            formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
+            
             AuditionKeyboardController.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
             FullMatch = conf.Read2<bool>(LAST_MATCH_FULL_WORD);
             
@@ -149,6 +148,9 @@ namespace JinrikiVocaloidVBHelper
 
             kbd.KeyPressed += Kbd_KeyPressed;
 
+            formFloat = new FormFloat(this);
+            formFloat.Show();
+            formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
         }
 
         private void Kbd_KeyPressed(object sender, KeyPressedEventArgs e)

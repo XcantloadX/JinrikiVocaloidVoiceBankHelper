@@ -130,7 +130,7 @@ namespace AuditionHelper.Audition
 
         public override void SaveSelection(string fileName, string filePath)
         {
-            EvalES(string.Format("SaveSelection(\"{0}\")", System.IO.Path.Combine(filePath.EscapeSplash(), fileName + ".wav")));
+            EvalES(string.Format("saveSelection(\"{0}\")", System.IO.Path.Combine(filePath.EscapeSplash(), fileName + ".wav")));
         }
 
         private class ResponseData
