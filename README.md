@@ -22,3 +22,4 @@
 * VvTalk
 * setParam
 * [Adobe Extension Samples](https://github.com/Adobe-CEP/Samples)
+* [Pinyin4NET](https://github.com/hyjiacan/Pinyin4NET)

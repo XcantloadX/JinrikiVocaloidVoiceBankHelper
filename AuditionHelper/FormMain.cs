@@ -217,7 +217,6 @@ namespace JinrikiVocaloidVBHelper
             {
                 CurrentLibrary.AudioPath = dialog.SelectedPath;
                 lblAudioPath.Text = CurrentLibrary.AudioPath;
-                //helper = new SearchHelper(CurrentLibrary.AudioPath);
             }
             dialog.Dispose();
         }
@@ -253,7 +252,7 @@ namespace JinrikiVocaloidVBHelper
         /// </summary>
         private void LoadCurrent()
         {
-            AuditionKeyboardController.EnsureActived();
+            AuditionController.EnsureActived();
             formFloat.UpdateUI();
 
             //检测重复打开的情况
@@ -311,6 +310,10 @@ namespace JinrikiVocaloidVBHelper
         {
             CurrentLibrary = lib;
             btnSearch_Click(null, null);
+            if(string.IsNullOrEmpty(CurrentLibrary.Name))
+                this.Text = new DirectoryInfo(CurrentLibrary.VoicePath).Name + " - UATU 音源制作助手";
+            else
+                this.Text = CurrentLibrary.Name + " - UATU 音源制作助手";
         }
 
         public void OpenLibrary(string libConfigPath)
@@ -504,8 +507,20 @@ namespace JinrikiVocaloidVBHelper
             }
         }
 
+
         #endregion
 
+        private void 自动切分ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("即将扫描所有音频文件并对其进行逐字切分，耗时可能较长，是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                CurrentLibrary.AutoAlign();
+            }
+        }
 
+        private void 打开PraatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MFAHelper.RunPraat();
+        }
     }
 }

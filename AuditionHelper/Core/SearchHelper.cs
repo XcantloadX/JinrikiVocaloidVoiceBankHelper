@@ -12,7 +12,7 @@ namespace JinrikiVocaloidVBHelper.Core
     /// </summary>
     public class SearchHelper
     {
-        //字幕文件内容
+        //字幕文件内容。文件名(.srt 文件名) ==> 字幕
         private Dictionary<string, SrtLine[]> subtitles;
         public int Count { get { return subtitles.Count; } }
 
@@ -82,6 +82,11 @@ namespace JinrikiVocaloidVBHelper.Core
             }
 
             return srtLines.ToArray();
+        }
+
+        public SrtLine[] GetAllLinesByFileName(string fileName)
+        {
+            return subtitles[fileName];
         }
 
         public string GetPathByIndex(int index)

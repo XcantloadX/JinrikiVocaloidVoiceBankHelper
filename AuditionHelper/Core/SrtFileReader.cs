@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using NPinyin;
+using hyjiacan.py4n;
 
 namespace JinrikiVocaloidVBHelper.Core
 {
@@ -71,8 +72,22 @@ namespace JinrikiVocaloidVBHelper.Core
         /// 字幕编号
         /// </summary>
         public int Number { get; internal set; }
+        /// <summary>
+        /// 开始时间。（00:00:01,233）
+        /// </summary>
         public string StartTime { get; internal set; }
+        /// <summary>
+        /// 开始时间的另一种更通用的格式。（00:00:01.233）
+        /// </summary>
+        public string StartTime2 { get { return StartTime.Replace(',', '.'); } }
+        /// <summary>
+        /// 结束时间。（00:00:01,233）
+        /// </summary>
         public string EndTime { get; internal set; }
+        /// <summary>
+        /// 结束时间的另一种更通用的格式。（00:00:01.233）
+        /// </summary>
+        public string EndTime2 { get { return EndTime.Replace(',', '.'); } }
         /// <summary>
         /// 字幕内容
         /// </summary>
@@ -84,8 +99,22 @@ namespace JinrikiVocaloidVBHelper.Core
         {
             get
             {
-                return Pinyin.GetPinyin(Content);
+                //return Pinyin.GetPinyin(Content);
                 //return TinyPinyin.PinyinHelper.GetPinyin(Content).ToLower();
+                PinyinFormat format = PinyinFormat.WITHOUT_TONE | PinyinFormat.LOWERCASE;
+                return Pinyin4Net.GetPinyin(Content, format);
+            }
+        }
+        /// <summary>
+        /// 字幕内容带声调的拼音
+        /// </summary>
+        public string ContentPinYinWithTones
+        {
+            get
+            {
+                //return PinyinHelper.ToHanyuPinyinStringArray()
+                PinyinFormat format = PinyinFormat.WITH_TONE_NUMBER | PinyinFormat.LOWERCASE;
+                return Pinyin4Net.GetPinyin(Content, format);
             }
         }
         public double Speed

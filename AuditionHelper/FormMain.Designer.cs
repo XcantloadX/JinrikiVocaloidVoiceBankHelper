@@ -48,12 +48,13 @@
             this.最近打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.扫描新文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.自动切分ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.剪切剪映字幕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开浮动工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.剪切剪映字幕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.自动切分ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开PraatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +68,7 @@
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderTag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -225,7 +227,6 @@
             this.最近打开ToolStripMenuItem,
             this.toolStripSeparator3,
             this.扫描新文件ToolStripMenuItem,
-            this.自动切分ToolStripMenuItem,
             this.toolStripSeparator2,
             this.退出ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
@@ -263,12 +264,6 @@
             this.扫描新文件ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
             this.扫描新文件ToolStripMenuItem.Text = "扫描新文件";
             // 
-            // 自动切分ToolStripMenuItem
-            // 
-            this.自动切分ToolStripMenuItem.Name = "自动切分ToolStripMenuItem";
-            this.自动切分ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
-            this.自动切分ToolStripMenuItem.Text = "自动切分";
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -284,13 +279,23 @@
             // 工具ToolStripMenuItem
             // 
             this.工具ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.剪切剪映字幕ToolStripMenuItem,
             this.打开浮动工具栏ToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.剪切剪映字幕ToolStripMenuItem,
+            this.自动切分ToolStripMenuItem,
+            this.打开PraatToolStripMenuItem,
             this.toolStripSeparator1,
             this.选项ToolStripMenuItem});
             this.工具ToolStripMenuItem.Name = "工具ToolStripMenuItem";
             this.工具ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.工具ToolStripMenuItem.Text = "工具";
+            // 
+            // 打开浮动工具栏ToolStripMenuItem
+            // 
+            this.打开浮动工具栏ToolStripMenuItem.Name = "打开浮动工具栏ToolStripMenuItem";
+            this.打开浮动工具栏ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.打开浮动工具栏ToolStripMenuItem.Text = "显示浮动工具栏";
+            this.打开浮动工具栏ToolStripMenuItem.Click += new System.EventHandler(this.打开浮动工具栏ToolStripMenuItem_Click);
             // 
             // 剪切剪映字幕ToolStripMenuItem
             // 
@@ -298,12 +303,19 @@
             this.剪切剪映字幕ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.剪切剪映字幕ToolStripMenuItem.Text = "剪映字幕处理";
             // 
-            // 打开浮动工具栏ToolStripMenuItem
+            // 自动切分ToolStripMenuItem
             // 
-            this.打开浮动工具栏ToolStripMenuItem.Name = "打开浮动工具栏ToolStripMenuItem";
-            this.打开浮动工具栏ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
-            this.打开浮动工具栏ToolStripMenuItem.Text = "打开浮动工具栏";
-            this.打开浮动工具栏ToolStripMenuItem.Click += new System.EventHandler(this.打开浮动工具栏ToolStripMenuItem_Click);
+            this.自动切分ToolStripMenuItem.Name = "自动切分ToolStripMenuItem";
+            this.自动切分ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.自动切分ToolStripMenuItem.Text = "自动切分";
+            this.自动切分ToolStripMenuItem.Click += new System.EventHandler(this.自动切分ToolStripMenuItem_Click);
+            // 
+            // 打开PraatToolStripMenuItem
+            // 
+            this.打开PraatToolStripMenuItem.Name = "打开PraatToolStripMenuItem";
+            this.打开PraatToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.打开PraatToolStripMenuItem.Text = "运行 Praat";
+            this.打开PraatToolStripMenuItem.Click += new System.EventHandler(this.打开PraatToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -418,6 +430,11 @@
             this.tabPage2.Text = "编辑";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(186, 6);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -478,9 +495,11 @@
         private System.Windows.Forms.ColumnHeader columnHeaderTag;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem 扫描新文件ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 自动切分ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem 最近打开ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 自动切分ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开PraatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
 

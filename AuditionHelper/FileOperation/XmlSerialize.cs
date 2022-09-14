@@ -14,6 +14,11 @@ namespace JinrikiVocaloidVBHelper.FileOperation
     /// </summary>
     public class XmlSerialize
     {
+        /// <summary>
+        /// 将对象序列化为 XML 文本
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static string ToXML(object obj)
         {
             if (obj == null)
@@ -29,6 +34,12 @@ namespace JinrikiVocaloidVBHelper.FileOperation
             }
         }
 
+        /// <summary>
+        /// 将 XML 文本反序列化为对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="xml">XML 文本</param>
+        /// <returns></returns>
         public static T ToObject<T>(string xml)
         {
             XmlSerializer serializer = new XmlSerializer(xml.GetType());

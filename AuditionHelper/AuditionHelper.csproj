@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JinrikiVocaloidVBHelper</RootNamespace>
     <AssemblyName>AuditionHelper</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="hyjiacan.py4n, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\hyjiacan.pinyin4net.4.1.1\lib\net47\hyjiacan.py4n.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>library\NAudio.dll</HintPath>
@@ -58,6 +62,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TinyPinyin, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>library\TinyPinyin.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
       <HintPath>..\packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
       <Private>True</Private>
@@ -67,7 +75,7 @@
     <Compile Include="Audition\AuditionKeyboardController.cs" />
     <Compile Include="Audition\AuditionController.cs" />
     <Compile Include="Audition\AuditionExtendScriptController.cs" />
-    <Compile Include="Core\LibraryObject.cs" />
+    <Compile Include="Core\LibraryAudioData.cs" />
     <Compile Include="Core\MaterialLibrary.cs" />
     <Compile Include="Core\MFAHelper.cs" />
     <Compile Include="Core\TextGridReader.cs" />
@@ -139,6 +147,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="library\TinyPinyin.dll" />
+    <Content Include="TinyPinyin.dll" />
+    <Content Include="tools\ffmpeg.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="tools\ffplay.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -149,7 +162,9 @@
     <Content Include="NPinyin.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="tools\Praat.exe" />
+    <Content Include="tools\Praat.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
