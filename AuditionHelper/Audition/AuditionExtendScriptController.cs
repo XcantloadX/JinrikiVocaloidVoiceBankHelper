@@ -130,7 +130,12 @@ namespace AuditionHelper.Audition
 
         public override void SaveSelection(string fileName, string filePath)
         {
-            EvalES(string.Format("saveSelection(\"{0}\")", System.IO.Path.Combine(filePath.EscapeSplash(), fileName + ".wav")));
+            string tempPath = System.IO.Path.GetFullPath("temp\\saveSelectionTemp.wav");
+            EvalES(string.Format("saveSelection(\"{0}\")", tempPath));
+            while (!System.IO.File.Exists(tempPath)) { } //等待命令执行
+            System.Diagnostics.Process p =System.Diagnostics.Process.Start("tools\\ffmpeg.exe", string.Format("-i {0} -ac 48000 -acodec pcm_s16le {1}", tempPath, System.IO.Path.Combine(filePath.EscapeSplash(), fileName + ".wav")));
+            p.WaitForExit();
+            System.IO.File.Delete(tempPath);
         }
 
         private class ResponseData
