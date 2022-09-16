@@ -210,19 +210,6 @@ namespace JinrikiVocaloidVBHelper
 
         }   
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "打开源音频文件夹";
-            dialog.SelectedPath = CurrentLibrary.AudioPath;
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                CurrentLibrary.AudioPath = dialog.SelectedPath;
-                lblAudioPath.Text = CurrentLibrary.AudioPath;
-            }
-            dialog.Dispose();
-        }
-
         /// <summary>
         /// 向后移动下标
         /// </summary>
@@ -356,7 +343,10 @@ namespace JinrikiVocaloidVBHelper
                 ListViewItem item = listView1.Items.Add(i.ToString()); //序号
 
                 item.SubItems.Add(Math.Round(line.Speed, 1).ToString()); //语速
-                item.SubItems.Add(line.ContentPinYin.Replace(txtSearch.Text, string.Format("[{0}]", txtSearch.Text))); //拼音
+                if(txtSearch.Text == "")
+                    item.SubItems.Add(line.ContentPinYin); //拼音
+                else
+                    item.SubItems.Add(line.ContentPinYin.Replace(txtSearch.Text, string.Format("[{0}]", txtSearch.Text))); //拼音
                 item.SubItems.Add(""); //标签
                 i++;
             }
@@ -372,29 +362,8 @@ namespace JinrikiVocaloidVBHelper
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 CurrentLibrary.VoicePath = dialog.SelectedPath;
-                lblOutPath.Text = CurrentLibrary.VoicePath;
             }
             dialog.Dispose();
-        }
-
-        private void btnRecordWaitTimeFactor_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-            MessageBox.Show("确定后将会自动打开一个文件，你需要在文件载入完成之后立即按下 Ctrl + Alt + N 以结束录制。");
-            kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Alt, Keys.N);
-            kbd.KeyPressed += (object sender2, KeyPressedEventArgs e2) =>
-            {
-                if (stopwatch.IsRunning && e2.Key == Keys.N && e2.Modifier == (Util.ModifierKeys.Control | Util.ModifierKeys.Alt))
-                {
-                    stopwatch.Stop();
-                    AuditionKeyboardController.OpenFileWaitTimeFactor = new FileInfo(result[0].FilePath).Length / stopwatch.Elapsed.TotalSeconds;
-                    UIHelper.ShowBalloon("音源辅助工具", "等待时间因子已保存：" + AuditionKeyboardController.OpenFileWaitTimeFactor);
-                    stopwatch.Reset();
-                }
-            };
-
-            stopwatch.Start();
-            OpenFile(Path.ChangeExtension(result[0].FilePath, ".mp3"), true);
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
