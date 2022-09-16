@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using AuditionHelper.Core;
 using Newtonsoft.Json;
 using JinrikiVocaloidVBHelper.Audition;
+using System.IO;
 
 namespace AuditionHelper.Audition
 {
@@ -130,7 +131,9 @@ namespace AuditionHelper.Audition
 
         public override void SaveSelection(string fileName, string filePath)
         {
-            string tempPath = System.IO.Path.GetFullPath("temp\\saveSelectionTemp.wav");
+            string tempPath = Path.GetFullPath("temp\\saveSelectionTemp.wav");
+            if (!Directory.Exists("temp"))
+                Directory.CreateDirectory("temp");
             EvalES(string.Format("saveSelection(\"{0}\")", tempPath));
             while (!System.IO.File.Exists(tempPath)) { } //等待命令执行
             System.Diagnostics.Process p =System.Diagnostics.Process.Start("tools\\ffmpeg.exe", string.Format("-i {0} -ac 48000 -acodec pcm_s16le {1}", tempPath, System.IO.Path.Combine(filePath.EscapeSplash(), fileName + ".wav")));
