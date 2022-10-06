@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using JinrikiVocaloidVBHelper.Audition;
 using System.IO;
 
-namespace AuditionHelper.Audition
+namespace JinrikiVocaloidVBHelper.Automation
 {
     /// <summary>
     /// 基于 ExtendScript 来操作 Audition
