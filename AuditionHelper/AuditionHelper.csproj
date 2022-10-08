@@ -199,6 +199,7 @@
     <Compile Include="Core\SrtFileReader.cs" />
     <Compile Include="Util\TimeConvert.cs" />
     <Compile Include="Util\UIHelper.cs" />
+    <Compile Include="Util\IgnorableException.cs" />
     <Compile Include="Util\VisualStudioDebugHelper.cs" />
     <Compile Include="Util\Win32.cs" />
     <EmbeddedResource Include="DialogChooseUTAU.resx">

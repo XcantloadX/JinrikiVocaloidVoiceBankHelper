@@ -144,6 +144,7 @@ namespace JinrikiVocaloidVBHelper.Core
                             ffmpeg.WaitForExit();
                             if (ffmpeg.ExitCode != 0)
                             {
+                                //TODO 扩充 IgnorableException 详细信息的显示，改掉这里
                                 MessageBox.Show("转码文件时出错。切分已终止。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
 #if DEBUG
                                 throw new Exception("ffmpeg 运行出错\n运行命令：" + sb.ToString());

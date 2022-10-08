@@ -106,18 +106,9 @@ namespace JinrikiVocaloidVBHelper
         private void FormMain_Load(object sender, EventArgs e)
         {
 
-//#if DEBUG
-//            VisualStudioDebugHelper.InstallExtesion();
-
-//            UTAUController u = new UTAUController(@"D:\PortableApps\UTAU\utau.exe");
-            
-//                //UTAUController u = new UTAUController(@"C:\Windows\System32\calc.exe");
-//                //u.Open("");
-//                u.RefreshVoiceBank();
-//                System.Threading.Thread.Sleep(10000);
-            
-//            //DialogChooseUTAU.ShowBox(Process.GetProcessesByName("utau"));
-//#endif
+#if DEBUG
+            VisualStudioDebugHelper.InstallExtesion();
+#endif
 
 
             //载入上次数据
@@ -141,19 +132,27 @@ namespace JinrikiVocaloidVBHelper
                 btnSearch_Click(null, null);
             }
 
-            //注册热键
-            kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.Right); //下一个位置
-            kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.Left); //上一个位置
-            //Ctrl + R 重载当前选区
-            kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.R); 
-            //Ctrl + Shift + R 重载当前文件
-            kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Shift, Keys.R);
-            //Ctrl + Alt + R 打开指定文件并重载当前选区
-            kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Alt, Keys.R);
-            //Ctrl + E 设置下标
-            kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.E);
-            //Ctrl + F 标记当前选区
-            //kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.F); 
+            try
+            {
+                //注册热键
+                kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.Right); //下一个位置
+                kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.Left); //上一个位置
+                                                                          //Ctrl + R 重载当前选区
+                kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.R);
+                //Ctrl + Shift + R 重载当前文件
+                kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Shift, Keys.R);
+                //Ctrl + Alt + R 打开指定文件并重载当前选区
+                kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Alt, Keys.R);
+                //Ctrl + E 设置下标
+                kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.E);
+                //Ctrl + F 标记当前选区
+                //kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.F); 
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IgnorableException("注册热键失败，可能其他软件已占用该快捷键。");
+            }
+
 
             kbd.KeyPressed += Kbd_KeyPressed;
 

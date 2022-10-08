@@ -180,7 +180,7 @@ namespace JinrikiVocaloidVBHelper.Automation
                 uatuProcess = DialogChooseUTAU.ShowBox(Process.GetProcessesByName("utau"));
             else if (processes.Length == 0)
             {
-                
+                throw new IgnorableException("提示", "未找到 UTAU 窗口，请先启动 UTAU。", System.Windows.Forms.MessageBoxIcon.Information);
             }
             else
                 uatuProcess = processes[0];
