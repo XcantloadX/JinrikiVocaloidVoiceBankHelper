@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 
-namespace AuditionHelper.Core
+namespace JinrikiVocaloidVBHelper.Core
 {
     /// <summary>
     /// MFA 辅助类

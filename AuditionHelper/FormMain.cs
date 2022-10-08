@@ -10,9 +10,8 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using JinrikiVocaloidVBHelper.Util;
 using JinrikiVocaloidVBHelper.Core;
-using AuditionHelper.Core;
 using JinrikiVocaloidVBHelper.Audition;
-using AuditionHelper.Audition;
+using JinrikiVocaloidVBHelper.Automation;
 
 namespace JinrikiVocaloidVBHelper
 {
@@ -68,6 +67,7 @@ namespace JinrikiVocaloidVBHelper
         }
 
         public AuditionController AuditionController { get; private set; }
+        public UTAUController UTAU { get; private set; }
 
         public const string LAST = "LAST";
         public const string SETTINGS = "Settings";
@@ -106,9 +106,18 @@ namespace JinrikiVocaloidVBHelper
         private void FormMain_Load(object sender, EventArgs e)
         {
 
-#if DEBUG
-            VisualStudioDebugHelper.InstallExtesion();
-#endif
+//#if DEBUG
+//            VisualStudioDebugHelper.InstallExtesion();
+
+//            UTAUController u = new UTAUController(@"D:\PortableApps\UTAU\utau.exe");
+            
+//                //UTAUController u = new UTAUController(@"C:\Windows\System32\calc.exe");
+//                //u.Open("");
+//                u.RefreshVoiceBank();
+//                System.Threading.Thread.Sleep(10000);
+            
+//            //DialogChooseUTAU.ShowBox(Process.GetProcessesByName("utau"));
+//#endif
 
 
             //载入上次数据
@@ -492,6 +501,14 @@ namespace JinrikiVocaloidVBHelper
         private void 打开PraatToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MFAHelper.RunPraat();
+        }
+
+        //刷新音源
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (UTAU == null)
+                UTAU = UTAUController.GetInstance();
+            UTAU.RefreshVoiceBank();
         }
     }
 }

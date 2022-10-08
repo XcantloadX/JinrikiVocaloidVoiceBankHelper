@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1110");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("1110");
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxMatchFullWord = new System.Windows.Forms.CheckBox();
             this.lblIndex = new System.Windows.Forms.Label();
@@ -50,6 +50,9 @@
             this.剪切剪映字幕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.自动切分ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开PraatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -212,6 +215,9 @@
             this.剪切剪映字幕ToolStripMenuItem,
             this.自动切分ToolStripMenuItem,
             this.打开PraatToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
             this.toolStripSeparator1,
             this.选项ToolStripMenuItem});
             this.工具ToolStripMenuItem.Name = "工具ToolStripMenuItem";
@@ -249,6 +255,27 @@
             this.打开PraatToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.打开PraatToolStripMenuItem.Text = "运行 Praat";
             this.打开PraatToolStripMenuItem.Click += new System.EventHandler(this.打开PraatToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(186, 6);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Enabled = false;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.ShowShortcutKeys = false;
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.toolStripMenuItem1.Text = "--- UTAU ---";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(229, 26);
+            this.toolStripMenuItem2.Text = "刷新音源设定";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator1
             // 
@@ -322,7 +349,7 @@
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem5});
             this.listView1.Location = new System.Drawing.Point(6, 176);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -422,6 +449,9 @@
         private System.Windows.Forms.ToolStripMenuItem 自动切分ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开PraatToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }
 
