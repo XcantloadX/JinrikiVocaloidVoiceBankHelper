@@ -78,7 +78,7 @@ namespace JinrikiVocaloidVBHelper
         public const string LAST_MAIN_X = "mainX";
         public const string LAST_MAIN_Y = "mainY";
         public const string LAST_FLOAT_X = "floatX";
-        public const string LAST_FLOAT_Y = "floatX";
+        public const string LAST_FLOAT_Y = "floatY";
         public const string ID_OpenFileWaitTimeFactor = "OpenFileWaitTimeFactor";
 
         public FormMain()
@@ -115,7 +115,7 @@ namespace JinrikiVocaloidVBHelper
             CurrentLibrary = MaterialLibrary.Read(conf.Read(LAST_LIB, LAST));
             Index = conf.Read2<int>(LAST_INDEX, LAST);
             txtSearch.Text = conf.Read(LAST_SEARCH, LAST);
-            Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_X, LAST));
+            Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_Y, LAST));
             
             AuditionKeyboardController.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
             FullMatch = conf.Read2<bool>(LAST_MATCH_FULL_WORD);
@@ -145,8 +145,6 @@ namespace JinrikiVocaloidVBHelper
                 kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Alt, Keys.R);
                 //Ctrl + E 设置下标
                 kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.E);
-                //Ctrl + F 标记当前选区
-                //kbd.RegisterHotKey(AuditionHelper.ModifierKeys.Control, Keys.F); 
             }
             catch (InvalidOperationException)
             {
@@ -157,8 +155,9 @@ namespace JinrikiVocaloidVBHelper
             kbd.KeyPressed += Kbd_KeyPressed;
 
             formFloat = new FormFloat(this);
-            formFloat.Show();
             formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
+            formFloat.Show();
+            
         }
 
         private void Kbd_KeyPressed(object sender, KeyPressedEventArgs e)
