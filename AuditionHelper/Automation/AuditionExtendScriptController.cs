@@ -29,7 +29,17 @@ namespace JinrikiVocaloidVBHelper.Automation
         {
             httpListener = new HttpListener();
             httpListener.Prefixes.Add("http://localhost:2233/");
-            httpListener.Start();
+            try
+            {
+                httpListener.Start();
+            }
+            catch (HttpListenerException e)
+            {
+                System.Windows.Forms.MessageBox.Show("无法监听端口 2233，请退出占用该端口的程序后重试。", "错误", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+#if DEBUG
+                throw e;
+#endif
+            }
             listeningThread = new Thread(Listening);
             listeningThread.Start();
         }
