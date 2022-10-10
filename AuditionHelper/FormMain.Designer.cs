@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("1110");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("1110");
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxMatchFullWord = new System.Windows.Forms.CheckBox();
             this.lblIndex = new System.Windows.Forms.Label();
@@ -66,6 +66,7 @@
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderTag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -218,6 +219,7 @@
             this.toolStripSeparator5,
             this.toolStripMenuItem1,
             this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
             this.toolStripSeparator1,
             this.选项ToolStripMenuItem});
             this.工具ToolStripMenuItem.Name = "工具ToolStripMenuItem";
@@ -227,46 +229,46 @@
             // 打开浮动工具栏ToolStripMenuItem
             // 
             this.打开浮动工具栏ToolStripMenuItem.Name = "打开浮动工具栏ToolStripMenuItem";
-            this.打开浮动工具栏ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.打开浮动工具栏ToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.打开浮动工具栏ToolStripMenuItem.Text = "显示浮动工具栏";
             this.打开浮动工具栏ToolStripMenuItem.Click += new System.EventHandler(this.打开浮动工具栏ToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(226, 6);
             // 
             // 剪切剪映字幕ToolStripMenuItem
             // 
             this.剪切剪映字幕ToolStripMenuItem.Name = "剪切剪映字幕ToolStripMenuItem";
-            this.剪切剪映字幕ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.剪切剪映字幕ToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.剪切剪映字幕ToolStripMenuItem.Text = "剪映字幕处理";
             // 
             // 自动切分ToolStripMenuItem
             // 
             this.自动切分ToolStripMenuItem.Name = "自动切分ToolStripMenuItem";
-            this.自动切分ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.自动切分ToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.自动切分ToolStripMenuItem.Text = "自动切分";
             this.自动切分ToolStripMenuItem.Click += new System.EventHandler(this.自动切分ToolStripMenuItem_Click);
             // 
             // 打开PraatToolStripMenuItem
             // 
             this.打开PraatToolStripMenuItem.Name = "打开PraatToolStripMenuItem";
-            this.打开PraatToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.打开PraatToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.打开PraatToolStripMenuItem.Text = "运行 Praat";
             this.打开PraatToolStripMenuItem.Click += new System.EventHandler(this.打开PraatToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(226, 6);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Enabled = false;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.ShowShortcutKeys = false;
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(229, 26);
             this.toolStripMenuItem1.Text = "--- UTAU ---";
             // 
             // toolStripMenuItem2
@@ -280,12 +282,12 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(226, 6);
             // 
             // 选项ToolStripMenuItem
             // 
             this.选项ToolStripMenuItem.Name = "选项ToolStripMenuItem";
-            this.选项ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.选项ToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.选项ToolStripMenuItem.Text = "选项...";
             // 
             // 关于ToolStripMenuItem
@@ -349,7 +351,7 @@
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5});
+            listViewItem2});
             this.listView1.Location = new System.Drawing.Point(6, 176);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -389,6 +391,13 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "编辑";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(229, 26);
+            this.toolStripMenuItem3.Text = "清理无用文件";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // FormMain
             // 
@@ -452,6 +461,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 

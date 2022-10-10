@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using PInvoke;
 using JinrikiVocaloidVBHelper.Util;
 using System.Threading;
+using JinrikiVocaloidVBHelper.FileOperation;
+using System.IO;
+using System.Windows.Forms;
 
 namespace JinrikiVocaloidVBHelper.Automation
 {
@@ -186,6 +189,58 @@ namespace JinrikiVocaloidVBHelper.Automation
                 uatuProcess = processes[0];
 
             return new UTAUController(uatuProcess.Id);
+        }
+
+        /// <summary>
+        /// 清理无用音源文件
+        /// </summary>
+        /// <param name="otoFilePath">oto.ini 文件路径</param>
+        public static void CleanVoiceBank(string otoFilePath)
+        {
+            OtoFile oto = new OtoFile(File.ReadAllText(otoFilePath));
+
+            //枚举音源文件夹里所有的文件
+            DirectoryInfo dir = new FileInfo(otoFilePath).Directory;
+            FileInfo[] files = dir.GetFiles();
+            List<FileInfo> toDelete = new List<FileInfo>(10);
+            foreach (var file in files)
+            {
+                if (file.Extension != ".wav" && file.Extension != ".frq" && file.Extension != ".llsm")
+                    continue;
+
+                switch (file.Extension)
+                {
+                    case ".wav":
+                        if (!oto.Items.ContainsKey(file.Name.Replace(".wav", "")))
+                            toDelete.Add(file);
+                        break;
+                    case ".frq":
+                        if (!oto.Items.ContainsKey(file.Name.Replace("_wav.frq", "")))
+                            toDelete.Add(file);
+                        break;
+                    case ".llsm":
+                        if (!oto.Items.ContainsKey(file.Name.Replace(".wav.llsm", "")))
+                            toDelete.Add(file);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("即将删除以下文件");
+            foreach (var file in toDelete)
+            {
+                sb.AppendLine(file.Name);
+            }
+            sb.AppendLine("是否继续？");
+            if(MessageBox.Show(sb.ToString(), "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                foreach (var file in toDelete)
+                {
+                    file.Delete();
+                }
+            }
+            
         }
     }
 }

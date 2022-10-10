@@ -188,6 +188,7 @@
       <DependentUpon>DialogChooseUTAU.cs</DependentUpon>
     </Compile>
     <Compile Include="FileOperation\CharacterReader.cs" />
+    <Compile Include="FileOperation\OtoFile.cs" />
     <Compile Include="FileOperation\XmlSerialize.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>

@@ -145,6 +145,8 @@ namespace JinrikiVocaloidVBHelper
                 kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Alt, Keys.R);
                 //Ctrl + E 设置下标
                 kbd.RegisterHotKey(Util.ModifierKeys.Control, Keys.E);
+                //Ctrl + Alt + G 清理无用文件
+                kbd.RegisterHotKey(Util.ModifierKeys.Control | Util.ModifierKeys.Alt, Keys.G);
             }
             catch (InvalidOperationException)
             {
@@ -212,7 +214,11 @@ namespace JinrikiVocaloidVBHelper
                     Index = newIndex;
                     LoadCurrent();
                 }
-                
+            }
+            //清理无用文件
+            else if (e.Key == Keys.G && e.Modifier == (Util.ModifierKeys.Alt | Util.ModifierKeys.Control))
+            {
+                toolStripMenuItem3_Click(null, null);
             }
 
         }   
@@ -507,6 +513,13 @@ namespace JinrikiVocaloidVBHelper
             if (UTAU == null)
                 UTAU = UTAUController.GetInstance();
             UTAU.RefreshVoiceBank();
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (CurrentLibrary.VoicePath == "")
+                throw new IgnorableException("未打开任何素材库或无法找到 oto.ini 文件。");
+            UTAUController.CleanVoiceBank(Path.Combine(CurrentLibrary.VoicePath, "oto.ini"));
         }
     }
 }
