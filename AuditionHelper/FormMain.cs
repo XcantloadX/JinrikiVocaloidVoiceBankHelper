@@ -5,7 +5,6 @@ using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using WindowsInput;
-using WindowsInput.Native;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using JinrikiVocaloidVBHelper.Util;

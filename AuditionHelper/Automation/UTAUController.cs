@@ -235,12 +235,21 @@ namespace JinrikiVocaloidVBHelper.Automation
             sb.AppendLine("是否继续？");
             if(MessageBox.Show(sb.ToString(), "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
+
                 foreach (var file in toDelete)
                 {
-                    file.Delete();
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(string.Format("无法删除文件 {0}。\n错误信息：\n{1}", file.Name, e.ToString()), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
-            
+
+            MessageBox.Show("删除完成！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
