@@ -83,7 +83,7 @@ namespace JinrikiVocaloidVBHelper.Audition
             Sleep();
 
             //输入名称
-            InputString(fileName);
+            InputString(fileName + ".wav");
             Sleep();
 
             //输入保存路径

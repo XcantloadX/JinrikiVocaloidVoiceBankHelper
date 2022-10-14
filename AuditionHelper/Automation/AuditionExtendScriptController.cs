@@ -146,7 +146,7 @@ namespace JinrikiVocaloidVBHelper.Automation
                 Directory.CreateDirectory("temp");
             EvalES(string.Format("saveSelection(\"{0}\")", tempPath));
             while (!System.IO.File.Exists(tempPath)) { } //等待命令执行
-            System.Diagnostics.Process p =System.Diagnostics.Process.Start("tools\\ffmpeg.exe", string.Format("-i {0} -ac 48000 -acodec pcm_s16le {1}", tempPath, System.IO.Path.Combine(filePath.EscapeSplash(), fileName + ".wav")));
+            System.Diagnostics.Process p =System.Diagnostics.Process.Start("tools\\ffmpeg.exe", string.Format("-i {0} -ac 48000 -acodec pcm_s16le {1}", tempPath, System.IO.Path.Combine(filePath.EscapeSplash(), fileName)));
             p.WaitForExit();
             System.IO.File.Delete(tempPath);
         }

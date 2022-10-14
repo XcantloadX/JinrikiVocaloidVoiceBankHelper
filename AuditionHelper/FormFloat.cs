@@ -30,7 +30,7 @@ namespace JinrikiVocaloidVBHelper
         {
             string fileName = mainForm.NextVoiceFileName;
             controller.SaveSelection(fileName, mainForm.CurrentLibrary.VoicePath);
-            UIHelper.ShowBalloon("已保存文件", fileName + ".wav");
+            UIHelper.ShowBalloon("已保存文件", fileName);
         }
 
         private void btnSaveSelectionAs_Click(object sender, EventArgs e)

@@ -293,12 +293,26 @@ namespace JinrikiVocaloidVBHelper
         {
             DirectoryInfo dir = new DirectoryInfo(CurrentLibrary.VoicePath);
             FileInfo[] files = dir.GetFiles();
-            var voices =
+            //找出所有 a.wav a1.wav a2.wav 等文件
+            var wavFiles =
                 (from file in files
                  where Regex.IsMatch(file.Name, string.Format(@"{0}\d*.wav", voiceName)) && file.Name.EndsWith("wav")
                  orderby file.Name ascending
                  select file.Name).ToArray();
-            return voiceName + (voices.Length == 0 ? "" : (voices.Length + 1).ToString());
+
+            if (wavFiles.Length <= 0) //之前没有这个字
+            {
+                return voiceName + ".wav";
+            }
+            else if(wavFiles[0] == voiceName) //之前只有一个，即 a.wav
+            {
+                return voiceName + "1.wav";
+            }
+            else
+            {
+                return voiceName + wavFiles.Length +".wav";
+            }
+            //return voiceName + (voices.Length == 0 ? "" : (voices.Length + 1).ToString());
         }
 
 

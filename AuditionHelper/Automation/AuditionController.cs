@@ -35,9 +35,9 @@ namespace JinrikiVocaloidVBHelper.Audition
         public abstract void Seek2(double time);
         /// <summary>
         /// 保存当前选区为 UTAU 格式并自动重命名
-        /// <param name="fileName">不加后缀名</param>
-        /// <param name="filePath">文件保存路径</param>
         /// </summary>
+        /// <param name="fileName">文件名称，比如 ha.wav</param>
+        /// <param name="filePath">文件保存路径</param>
         public abstract void SaveSelection(string fileName, string filePath);
 
 
