@@ -391,10 +391,13 @@ namespace JinrikiVocaloidVBHelper
 
         private void 打开浮动工具栏ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (formFloat != null)
+            if (formFloat.IsDisposed || formFloat == null)
             {
-                formFloat.Dispose();
                 formFloat = new FormFloat(this);
+                formFloat.Show();
+            }
+            else
+            {
                 formFloat.Show();
             }
         }
