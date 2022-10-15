@@ -18,9 +18,26 @@ namespace JinrikiVocaloidVBHelper.Core
     public class MaterialLibrary
     {
         public const string CONFIG_FILE_NAME = "library.vbh";
+        /// <summary>
+        /// 素材库文件夹路径
+        /// </summary>
+        [XmlIgnore]
+        public string LibraryConfigPath { get; set; }
+        /// <summary>
+        /// 源素材音频文件路径
+        /// </summary>
         public string AudioPath { get; set; }
+        /// <summary>
+        /// 音源文件夹路径
+        /// </summary>
         public string VoicePath { get; set; }
+        /// <summary>
+        /// 音源名称
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// UTAU 音源配置文件（character.txt）路径
+        /// </summary>
         public string ConfigPath { get; set; }
         
         public static MaterialLibrary Empty
@@ -78,7 +95,9 @@ namespace JinrikiVocaloidVBHelper.Core
         {
             if (!File.Exists(filePath))
                 return Empty;
-            return XmlSerialize.ToObject<MaterialLibrary>(File.ReadAllText(filePath));
+            MaterialLibrary lib = XmlSerialize.ToObject<MaterialLibrary>(File.ReadAllText(filePath));
+            lib.LibraryConfigPath = filePath;
+            return lib;
         }
 
         /// <summary>

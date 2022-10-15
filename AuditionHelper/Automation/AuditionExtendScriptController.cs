@@ -4,10 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Net;
-using JinrikiVocaloidVBHelper.Core;
 using JinrikiVocaloidVBHelper.Util;
-using System.Text.RegularExpressions;
-using AuditionHelper.Core;
 using Newtonsoft.Json;
 using JinrikiVocaloidVBHelper.Audition;
 using System.IO;
@@ -117,26 +114,31 @@ namespace JinrikiVocaloidVBHelper.Automation
         public override void OpenFile(string path)
         {
             EvalES(string.Format("openFile(\"{0}\")", path.EscapeSplash()));
+            EnsureActived();
         }
 
         public override void Select(string startTime, string endTime)
         {
             Select2(TimeConvert.SrtTime2Sec(startTime), TimeConvert.SrtTime2Sec(endTime));
+            EnsureActived();
         }
 
         public override void Select2(double startTime, double endTime)
         {
             EvalES(string.Format("select({0}, {1})", startTime, endTime));
+            EnsureActived();
         }
 
         public override void Seek(string time)
         {
             Seek2(TimeConvert.SrtTime2Sec(time));
+            EnsureActived();
         }
 
         public override void Seek2(double time)
         {
             EvalES(string.Format("seek({0})", time));
+            EnsureActived();
         }
 
         public override void SaveSelection(string fileName, string filePath)
@@ -146,7 +148,7 @@ namespace JinrikiVocaloidVBHelper.Automation
                 Directory.CreateDirectory("temp");
             EvalES(string.Format("saveSelection(\"{0}\")", tempPath));
             while (!System.IO.File.Exists(tempPath)) { } //等待命令执行
-            System.Diagnostics.Process p =System.Diagnostics.Process.Start("tools\\ffmpeg.exe", string.Format("-i {0} -ac 48000 -acodec pcm_s16le {1}", tempPath, System.IO.Path.Combine(filePath.EscapeSplash(), fileName)));
+            System.Diagnostics.Process p = System.Diagnostics.Process.Start("tools\\ffmpeg.exe", string.Format("-i {0} -ac 48000 -acodec pcm_s16le {1}", tempPath, System.IO.Path.Combine(filePath.EscapeSplash(), fileName)));
             p.WaitForExit();
             System.IO.File.Delete(tempPath);
         }

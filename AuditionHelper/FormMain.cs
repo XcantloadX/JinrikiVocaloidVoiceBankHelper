@@ -11,6 +11,7 @@ using JinrikiVocaloidVBHelper.Util;
 using JinrikiVocaloidVBHelper.Core;
 using JinrikiVocaloidVBHelper.Audition;
 using JinrikiVocaloidVBHelper.Automation;
+using System.Collections.Generic;
 
 namespace JinrikiVocaloidVBHelper
 {
@@ -20,7 +21,7 @@ namespace JinrikiVocaloidVBHelper
         private InputSimulator simulator = new InputSimulator();
         private SrtLine[] result = null;
         private IniFile conf = new IniFile("settings.ini");
-        
+
 
         private int _index = 0;
         /// <summary>
@@ -59,16 +60,22 @@ namespace JinrikiVocaloidVBHelper
                 return GetNextVoiceFileName(CurrentVoiceName);
             }
         }
+        /// <summary>
+        /// 是否为全词匹配
+        /// </summary>
         public bool FullMatch
         {
             get { return checkBoxMatchFullWord.Checked; }
             set { checkBoxMatchFullWord.Checked = value; }
         }
-
+        /// <summary>
+        /// 最近打开的项目
+        /// </summary>
+        public List<string> RecentProjects = new List<string>(new string[] { "", "", "", "", ""});
         public AuditionController AuditionController { get; private set; }
         public UTAUController UTAU { get; private set; }
 
-        public const string LAST = "LAST";
+        public const string LAST = "Last";
         public const string SETTINGS = "Settings";
         public const string LAST_LIB = "lastLibrary";
         public const string LAST_SEARCH = "lastSearch";
@@ -78,6 +85,11 @@ namespace JinrikiVocaloidVBHelper
         public const string LAST_MAIN_Y = "mainY";
         public const string LAST_FLOAT_X = "floatX";
         public const string LAST_FLOAT_Y = "floatY";
+        public const string LAST_RECENT_0 = "recentProject0";
+        public const string LAST_RECENT_1 = "recentProject1";
+        public const string LAST_RECENT_2 = "recentProject2";
+        public const string LAST_RECENT_3 = "recentProject3";
+        public const string LAST_RECENT_4 = "recentProject4";
         public const string ID_OpenFileWaitTimeFactor = "OpenFileWaitTimeFactor";
 
         public FormMain()
@@ -98,6 +110,11 @@ namespace JinrikiVocaloidVBHelper
             conf.Write(LAST_FLOAT_X, formFloat.Location.X.ToString(), LAST);
             conf.Write(LAST_FLOAT_Y, formFloat.Location.Y.ToString(), LAST);
             conf.Write(LAST_MATCH_FULL_WORD, (checkBoxMatchFullWord.Checked).ToString(), LAST);
+            conf.Write(LAST_RECENT_0, RecentProjects[0], LAST);
+            conf.Write(LAST_RECENT_1, RecentProjects[1], LAST);
+            conf.Write(LAST_RECENT_2, RecentProjects[2], LAST);
+            conf.Write(LAST_RECENT_3, RecentProjects[3], LAST);
+            conf.Write(LAST_RECENT_4, RecentProjects[4], LAST);
 
             conf.Write(ID_OpenFileWaitTimeFactor, AuditionKeyboardController.OpenFileWaitTimeFactor.ToString(), SETTINGS);
         }
@@ -115,7 +132,12 @@ namespace JinrikiVocaloidVBHelper
             Index = conf.Read2<int>(LAST_INDEX, LAST);
             txtSearch.Text = conf.Read(LAST_SEARCH, LAST);
             Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_Y, LAST));
-            
+            RecentProjects[0] = conf.Read2<string>(LAST_RECENT_0, LAST);
+            RecentProjects[1] = conf.Read2<string>(LAST_RECENT_1, LAST);
+            RecentProjects[2] = conf.Read2<string>(LAST_RECENT_2, LAST);
+            RecentProjects[3] = conf.Read2<string>(LAST_RECENT_3, LAST);
+            RecentProjects[4] = conf.Read2<string>(LAST_RECENT_4, LAST);
+
             AuditionKeyboardController.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
             FullMatch = conf.Read2<bool>(LAST_MATCH_FULL_WORD);
             
@@ -155,10 +177,32 @@ namespace JinrikiVocaloidVBHelper
 
             kbd.KeyPressed += Kbd_KeyPressed;
 
+            //UI 初始化
+            LoadRecentProjectsMenu();
+
             formFloat = new FormFloat(this);
             formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
             formFloat.Show();
             
+        }
+
+        /// <summary>
+        /// 将最近项目载入到菜单栏里
+        /// </summary>
+        private void LoadRecentProjectsMenu()
+        {
+            menuRecentProject.DropDownItems.Clear();
+            foreach (var project in RecentProjects)
+            {
+                if (!string.IsNullOrWhiteSpace(project))
+                {
+                    ToolStripItem item = menuRecentProject.DropDownItems.Add(project);
+                    item.Click += (object sender, EventArgs args) =>
+                    {
+                        OpenLibrary(item.Text);
+                    };
+                }
+            }
         }
 
         private void Kbd_KeyPressed(object sender, KeyPressedEventArgs e)
@@ -326,9 +370,26 @@ namespace JinrikiVocaloidVBHelper
             CurrentLibrary = lib;
             btnSearch_Click(null, null);
             if(string.IsNullOrEmpty(CurrentLibrary.Name))
-                this.Text = new DirectoryInfo(CurrentLibrary.VoicePath).Name + " - UATU 音源制作助手";
+                this.Text = new DirectoryInfo(CurrentLibrary.VoicePath).Name + " - UTAU 音源制作助手";
             else
-                this.Text = CurrentLibrary.Name + " - UATU 音源制作助手";
+                this.Text = CurrentLibrary.Name + " - UTAU 音源制作助手";
+
+            //更新最近项目
+            //先判断新打开的项目是否已经存在于列表中
+            if (RecentProjects.Contains(lib.LibraryConfigPath))
+            {
+                RecentProjects.Remove(lib.LibraryConfigPath);
+                RecentProjects.Insert(0, lib.LibraryConfigPath);
+            }
+            //否则删除最后一个，把新的插到第一个
+            else
+            {
+                RecentProjects.Insert(0, lib.LibraryConfigPath);
+                RecentProjects.RemoveAt(5);
+            }
+
+            LoadRecentProjectsMenu();
+
         }
 
         public void OpenLibrary(string libConfigPath)

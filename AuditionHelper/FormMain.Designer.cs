@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("1110");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1110");
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxMatchFullWord = new System.Windows.Forms.CheckBox();
             this.lblIndex = new System.Windows.Forms.Label();
@@ -39,7 +39,7 @@
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新建素材库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开素材库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.最近打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRecentProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.扫描新文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -53,6 +53,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +67,6 @@
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderTag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -156,7 +156,7 @@
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.新建素材库ToolStripMenuItem,
             this.打开素材库ToolStripMenuItem,
-            this.最近打开ToolStripMenuItem,
+            this.menuRecentProject,
             this.toolStripSeparator3,
             this.扫描新文件ToolStripMenuItem,
             this.toolStripSeparator2,
@@ -168,43 +168,43 @@
             // 新建素材库ToolStripMenuItem
             // 
             this.新建素材库ToolStripMenuItem.Name = "新建素材库ToolStripMenuItem";
-            this.新建素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.新建素材库ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.新建素材库ToolStripMenuItem.Text = "新建素材库...";
             this.新建素材库ToolStripMenuItem.Click += new System.EventHandler(this.新建素材库ToolStripMenuItem_Click);
             // 
             // 打开素材库ToolStripMenuItem
             // 
             this.打开素材库ToolStripMenuItem.Name = "打开素材库ToolStripMenuItem";
-            this.打开素材库ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.打开素材库ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.打开素材库ToolStripMenuItem.Text = "打开素材库...";
             this.打开素材库ToolStripMenuItem.Click += new System.EventHandler(this.打开素材库ToolStripMenuItem_Click);
             // 
-            // 最近打开ToolStripMenuItem
+            // menuRecentProject
             // 
-            this.最近打开ToolStripMenuItem.Name = "最近打开ToolStripMenuItem";
-            this.最近打开ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
-            this.最近打开ToolStripMenuItem.Text = "最近打开";
+            this.menuRecentProject.Name = "menuRecentProject";
+            this.menuRecentProject.Size = new System.Drawing.Size(181, 26);
+            this.menuRecentProject.Text = "最近打开";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(168, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(178, 6);
             // 
             // 扫描新文件ToolStripMenuItem
             // 
             this.扫描新文件ToolStripMenuItem.Name = "扫描新文件ToolStripMenuItem";
-            this.扫描新文件ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.扫描新文件ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.扫描新文件ToolStripMenuItem.Text = "扫描新文件";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(168, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(178, 6);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -279,6 +279,13 @@
             this.toolStripMenuItem2.Text = "刷新音源设定";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(229, 26);
+            this.toolStripMenuItem3.Text = "清理无用文件";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -351,7 +358,7 @@
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem1});
             this.listView1.Location = new System.Drawing.Point(6, 176);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -391,13 +398,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "编辑";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(229, 26);
-            this.toolStripMenuItem3.Text = "清理无用文件";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // FormMain
             // 
@@ -454,7 +454,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem 扫描新文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem 最近打开ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuRecentProject;
         private System.Windows.Forms.ToolStripMenuItem 自动切分ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开PraatToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
