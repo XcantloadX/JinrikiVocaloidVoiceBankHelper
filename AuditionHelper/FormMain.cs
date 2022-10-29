@@ -589,7 +589,8 @@ namespace JinrikiVocaloidVBHelper
         {
             if (UTAU == null)
                 UTAU = UTAUController.GetInstance();
-            UTAU.RefreshVoiceBank();
+            if(UTAU != null)
+                UTAU.RefreshVoiceBank();
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)

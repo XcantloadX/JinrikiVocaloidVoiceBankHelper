@@ -39,7 +39,8 @@ namespace JinrikiVocaloidVBHelper
             processes.ToList().ForEach(process => dialog.listBox1.Items.Add(new UTAUController(process.Id).ProjectName));
             if(processes.Length > 0)
                 dialog.listBox1.SelectedIndex = 0; //默认选中第一个
-            dialog.ShowDialog();
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return null;
 
             //处理默认
             if (dialog.checkBoxAsDefault.Checked)

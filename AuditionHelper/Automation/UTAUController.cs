@@ -178,17 +178,21 @@ namespace JinrikiVocaloidVBHelper.Automation
         public static UTAUController GetInstance()
         {
             Process[] processes = Process.GetProcessesByName("utau");
-            Process uatuProcess = null;
+            Process utauProcess = null;
             if (processes.Length > 1)
-                uatuProcess = DialogChooseUTAU.ShowBox(Process.GetProcessesByName("utau"));
+            {
+                utauProcess = DialogChooseUTAU.ShowBox(Process.GetProcessesByName("utau"));
+                if (utauProcess == null)
+                    return null;
+            }
             else if (processes.Length == 0)
             {
                 throw new IgnorableException("提示", "未找到 UTAU 窗口，请先启动 UTAU。", System.Windows.Forms.MessageBoxIcon.Information);
             }
             else
-                uatuProcess = processes[0];
+                utauProcess = processes[0];
 
-            return new UTAUController(uatuProcess.Id);
+            return new UTAUController(utauProcess.Id);
         }
 
         /// <summary>

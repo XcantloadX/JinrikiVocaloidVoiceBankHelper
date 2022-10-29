@@ -13,7 +13,6 @@ namespace JinrikiVocaloidVBHelper.Audition
 {
     public abstract class AuditionController : IDisposable
     {
-
         /// <summary>
         /// 打开文件
         /// </summary>
