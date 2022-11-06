@@ -86,9 +86,9 @@ namespace JinrikiVocaloidVBHelper.Automation
         {
             //寻找主窗口
             IntPtr[] result = (from hwnd in Win32.GetAllWindowsOfProcess(PID)
-                            where User32.GetClassName(hwnd) == "ThunderRT6FormDC" && User32.GetWindowText(hwnd).Contains("UTAU")
-                            select hwnd).ToArray();
-            if(result.Length > 1)
+                               where User32.GetClassName(hwnd) == "ThunderRT6FormDC" && User32.GetWindowText(hwnd).Contains("UTAU")
+                               select hwnd).ToArray();
+            if (result.Length > 1)
             {
                 throw new NotImplementedException("多窗口");
             }
@@ -109,7 +109,7 @@ namespace JinrikiVocaloidVBHelper.Automation
         /// <param name="projectPath">项目文件路径</param>
         public UTAUController(string UTAUPath, string projectPath) : this(UTAUPath)
         {
-            
+
         }
 
         public void Open(string projectPath)
@@ -201,12 +201,12 @@ namespace JinrikiVocaloidVBHelper.Automation
         /// <param name="otoFilePath">oto.ini 文件路径</param>
         public static void CleanVoiceBank(string otoFilePath)
         {
-            OtoFile oto = new OtoFile(File.ReadAllText(otoFilePath));
+            OtoFile oto = OtoFile.FromString(File.ReadAllText(otoFilePath));
 
             //枚举音源文件夹里所有的文件
             DirectoryInfo dir = new FileInfo(otoFilePath).Directory;
             FileInfo[] files = dir.GetFiles();
-            List<FileInfo> toDelete = new List<FileInfo>(10);
+            List<FileInfo> uselessItems = new List<FileInfo>(10);
             foreach (var file in files)
             {
                 if (file.Extension != ".wav" && file.Extension != ".frq" && file.Extension != ".llsm")
@@ -216,15 +216,15 @@ namespace JinrikiVocaloidVBHelper.Automation
                 {
                     case ".wav":
                         if (!oto.Items.ContainsKey(file.Name.Replace(".wav", "")))
-                            toDelete.Add(file);
+                            uselessItems.Add(file);
                         break;
                     case ".frq":
                         if (!oto.Items.ContainsKey(file.Name.Replace("_wav.frq", "")))
-                            toDelete.Add(file);
+                            uselessItems.Add(file);
                         break;
                     case ".llsm":
                         if (!oto.Items.ContainsKey(file.Name.Replace(".wav.llsm", "")))
-                            toDelete.Add(file);
+                            uselessItems.Add(file);
                         break;
                     default:
                         break;
@@ -232,15 +232,15 @@ namespace JinrikiVocaloidVBHelper.Automation
             }
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("即将删除以下文件");
-            foreach (var file in toDelete)
+            foreach (var file in uselessItems)
             {
                 sb.AppendLine(file.Name);
             }
             sb.AppendLine("是否继续？");
-            if(MessageBox.Show(sb.ToString(), "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            if (MessageBox.Show(sb.ToString(), "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
 
-                foreach (var file in toDelete)
+                foreach (var file in uselessItems)
                 {
                     try
                     {
@@ -254,6 +254,67 @@ namespace JinrikiVocaloidVBHelper.Automation
             }
 
             MessageBox.Show("删除完成！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        /// <summary>
+        /// 以指定音长、音高、重采样器和合成器试听指定音源的单个字
+        /// </summary>
+        /// <param name="voiceBankPath">音源文件夹路径</param>
+        /// <param name="toolPath">合成器路径</param>
+        /// <param name="resamplerPath">重采样器路径</param>
+        /// <param name="character">字</param>
+        /// <param name="length">音长</param>
+        /// <param name="key">音高</param>
+        /// <param name="flags">（全局）参数</param>
+        /// <param name="silent">是否不弹出提示框</param>
+        /// <returns>渲染 .wav 文件路径</returns>
+        public static string PreviewSingle(string voiceBankPath, string toolPath, string resamplerPath, string character, int length, string key, string flags = "", bool silent = false)
+        {
+            //检查模板
+            if (!Directory.Exists("templates/single"))
+                throw new IgnorableException("错误", "未找到单字预览模板（templates/single 文件夹）。", MessageBoxIcon.Error);
+            //清空上次临时文件
+            try
+            {
+                if (Directory.Exists("temp/preview"))
+                    Directory.Delete("temp/preview", true);
+            }
+            catch (IOException)
+            {
+                throw new IgnorableException("提示", "无法清除试听临时文件。\n请检查是否有其他软件占用。", MessageBoxIcon.Stop);
+            }
+
+            //读入 oto.ini 信息
+            OtoFile oto = OtoFile.FromString(File.ReadAllText(Path.Combine(voiceBankPath, "oto.ini")));
+            OtoCharacterParams c = oto.Items[character];
+            //复制到临时文件夹
+            FileUtil.CopyDirectory("templates/single", "temp/preview/single", true);
+            //设置参数
+            string bat = File.ReadAllText("temp/preview/single/temp.bat")
+                .Replace("{{oto}}", voiceBankPath) //音源文件夹路径
+                .Replace("{{tool}}", toolPath)
+                .Replace("{{resampler}}", resamplerPath)
+                .Replace("{{cachedir}}", Path.GetFullPath("temp/preview/single/temp.cache"))
+                .Replace("{{flag}}", flags)
+                .Replace("{{character}}", character)
+                .Replace("{{key}}", key)
+                .Replace("{{length}}", length.ToString())
+                .Replace("{{leftBlank}}", c.LeftBlank.ToString())
+                .Replace("{{consonant}}", c.Consonant.ToString())
+                .Replace("{{preUtterance}}", c.PreUtterance.ToString())
+                .Replace("{{rightBlank}}", c.RightBlank.ToString());
+            File.WriteAllText("temp/preview/single/temp.bat", bat);
+            //运行脚本
+            Process.Start(
+                @"cmd.exe",
+                string.Format(
+                    "/c cd /D {0} & {1}",
+                    new FileInfo("temp/preview/single/temp.bat").Directory.FullName,
+                    Path.GetFullPath("temp/preview/single/temp.bat")
+                )
+            ).WaitForExit();
+            return Path.GetFullPath("temp/preview/single/temp.wav");
         }
     }
 }

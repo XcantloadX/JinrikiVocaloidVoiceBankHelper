@@ -187,7 +187,14 @@
     <Compile Include="DialogChooseUTAU.Designer.cs">
       <DependentUpon>DialogChooseUTAU.cs</DependentUpon>
     </Compile>
+    <Compile Include="DialogPreviewSingle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogPreviewSingle.Designer.cs">
+      <DependentUpon>DialogPreviewSingle.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileOperation\CharacterReader.cs" />
+    <Compile Include="FileOperation\FileUtil.cs" />
     <Compile Include="FileOperation\OtoFile.cs" />
     <Compile Include="FileOperation\XmlSerialize.cs" />
     <Compile Include="FormMain.cs">
@@ -202,6 +209,9 @@
     <Compile Include="FormFloat.Designer.cs">
       <DependentUpon>FormFloat.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormMain2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,6 +224,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\SearchHelper.cs" />
     <Compile Include="Core\SrtFileReader.cs" />
+    <Compile Include="Util\SoundPlayer.cs" />
     <Compile Include="Util\TimeConvert.cs" />
     <Compile Include="Util\UIHelper.cs" />
     <Compile Include="Util\IgnorableException.cs" />
@@ -221,6 +232,9 @@
     <Compile Include="Util\Win32.cs" />
     <EmbeddedResource Include="DialogChooseUTAU.resx">
       <DependentUpon>DialogChooseUTAU.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogPreviewSingle.resx">
+      <DependentUpon>DialogPreviewSingle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -251,6 +265,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="templates\single\temp.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="templates\single\temp_helper.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="tools\mfa_runner.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -262,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="library\TinyPinyin.dll" />
+    <Content Include="templates\single\temp.wav" />
     <Content Include="TinyPinyin.dll" />
     <Content Include="tools\ffmpeg.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
