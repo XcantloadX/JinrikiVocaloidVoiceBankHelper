@@ -180,6 +180,7 @@
     <Compile Include="Core\LibraryAudioData.cs" />
     <Compile Include="Core\MaterialLibrary.cs" />
     <Compile Include="Core\MFAHelper.cs" />
+    <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\TextGridReader.cs" />
     <Compile Include="DialogChooseUTAU.cs">
       <SubType>Form</SubType>

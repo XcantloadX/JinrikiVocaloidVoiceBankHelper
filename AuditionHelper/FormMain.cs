@@ -69,29 +69,12 @@ namespace JinrikiVocaloidVBHelper
             get { return checkBoxMatchFullWord.Checked; }
             set { checkBoxMatchFullWord.Checked = value; }
         }
-        /// <summary>
-        /// 最近打开的项目
-        /// </summary>
-        public List<string> RecentProjects = new List<string>(new string[] { "", "", "", "", ""});
+
         public AuditionController AuditionController { get; private set; }
         public UTAUController UTAU { get; private set; }
 
-        public const string LAST = "Last";
-        public const string SETTINGS = "Settings";
-        public const string LAST_LIB = "lastLibrary";
-        public const string LAST_SEARCH = "lastSearch";
-        public const string LAST_INDEX = "lastIndex";
-        public const string LAST_MATCH_FULL_WORD = "lastMatchFullWord";
-        public const string LAST_MAIN_X = "mainX";
-        public const string LAST_MAIN_Y = "mainY";
-        public const string LAST_FLOAT_X = "floatX";
-        public const string LAST_FLOAT_Y = "floatY";
-        public const string LAST_RECENT_0 = "recentProject0";
-        public const string LAST_RECENT_1 = "recentProject1";
-        public const string LAST_RECENT_2 = "recentProject2";
-        public const string LAST_RECENT_3 = "recentProject3";
-        public const string LAST_RECENT_4 = "recentProject4";
-        public const string ID_OpenFileWaitTimeFactor = "OpenFileWaitTimeFactor";
+        private Settings settings;
+        
 
         public FormMain()
         {
@@ -103,21 +86,14 @@ namespace JinrikiVocaloidVBHelper
             AuditionController.Dispose();
 
             //保存数据
-            conf.Write(LAST_LIB, CurrentLibrary.ConfigPath, LAST);
-            conf.Write(LAST_SEARCH, txtSearch.Text, LAST);
-            conf.Write(LAST_INDEX, Index.ToString(), LAST);
-            conf.Write(LAST_MAIN_X, Location.X.ToString(), LAST);
-            conf.Write(LAST_MAIN_Y, Location.Y.ToString(), LAST);
-            conf.Write(LAST_FLOAT_X, formFloat.Location.X.ToString(), LAST);
-            conf.Write(LAST_FLOAT_Y, formFloat.Location.Y.ToString(), LAST);
-            conf.Write(LAST_MATCH_FULL_WORD, (checkBoxMatchFullWord.Checked).ToString(), LAST);
-            conf.Write(LAST_RECENT_0, RecentProjects[0], LAST);
-            conf.Write(LAST_RECENT_1, RecentProjects[1], LAST);
-            conf.Write(LAST_RECENT_2, RecentProjects[2], LAST);
-            conf.Write(LAST_RECENT_3, RecentProjects[3], LAST);
-            conf.Write(LAST_RECENT_4, RecentProjects[4], LAST);
-
-            conf.Write(ID_OpenFileWaitTimeFactor, AuditionKeyboardController.OpenFileWaitTimeFactor.ToString(), SETTINGS);
+            settings.Last.LibraryPath = CurrentLibrary.ConfigPath;
+            settings.Last.SearchContent = txtSearch.Text;
+            settings.Last.Index = Index;
+            settings.Last.MainWindowPosition = Location;
+            settings.Last.FloatToolWindowPosition = formFloat.Location;
+            settings.Last.IsMatchFullWord = checkBoxMatchFullWord.Checked;
+            settings.OpenFileWaitTimeFactor = AuditionKeyboardController.OpenFileWaitTimeFactor;
+            settings.Save();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -129,19 +105,16 @@ namespace JinrikiVocaloidVBHelper
 
 
             //载入上次数据
-            CurrentLibrary = MaterialLibrary.Read(conf.Read(LAST_LIB, LAST));
-            Index = conf.Read2<int>(LAST_INDEX, LAST);
-            txtSearch.Text = conf.Read(LAST_SEARCH, LAST);
-            Location = new Point(conf.Read2<int>(LAST_MAIN_X, LAST), conf.Read2<int>(LAST_MAIN_Y, LAST));
-            RecentProjects[0] = conf.Read2<string>(LAST_RECENT_0, LAST);
-            RecentProjects[1] = conf.Read2<string>(LAST_RECENT_1, LAST);
-            RecentProjects[2] = conf.Read2<string>(LAST_RECENT_2, LAST);
-            RecentProjects[3] = conf.Read2<string>(LAST_RECENT_3, LAST);
-            RecentProjects[4] = conf.Read2<string>(LAST_RECENT_4, LAST);
+            settings = new Settings("settings.ini");
 
-            AuditionKeyboardController.OpenFileWaitTimeFactor = conf.Read2<float>(ID_OpenFileWaitTimeFactor, SETTINGS);
-            FullMatch = conf.Read2<bool>(LAST_MATCH_FULL_WORD);
-            
+            CurrentLibrary = MaterialLibrary.Read(settings.Last.LibraryPath);
+            Index = settings.Last.Index;
+            txtSearch.Text = settings.Last.SearchContent;
+            Location = settings.Last.MainWindowPosition;
+
+            AuditionKeyboardController.OpenFileWaitTimeFactor = settings.OpenFileWaitTimeFactor;
+            FullMatch = settings.Last.IsMatchFullWord;
+
             //初始化
             AuditionController = new AuditionExtendScriptController();
             if(CurrentLibrary.SearchHelper != null)
@@ -184,7 +157,7 @@ namespace JinrikiVocaloidVBHelper
             LoadRecentProjectsMenu();
 
             formFloat = new FormFloat(this);
-            formFloat.Location = new Point(conf.Read2<int>(LAST_FLOAT_X, LAST), conf.Read2<int>(LAST_FLOAT_Y, LAST));
+            formFloat.Location = settings.Last.FloatToolWindowPosition;
             formFloat.Show();
             
         }
@@ -195,7 +168,7 @@ namespace JinrikiVocaloidVBHelper
         private void LoadRecentProjectsMenu()
         {
             menuRecentProject.DropDownItems.Clear();
-            foreach (var project in RecentProjects)
+            foreach (var project in settings.Last.RecentProjects)
             {
                 if (!string.IsNullOrWhiteSpace(project))
                 {

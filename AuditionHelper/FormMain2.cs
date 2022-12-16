@@ -93,16 +93,17 @@ namespace JinrikiVocaloidVBHelper
 
             //更新最近项目
             //先判断新打开的项目是否已经存在于列表中
-            if (RecentProjects.Contains(lib.LibraryConfigPath))
+            List<string> list = settings.Last.RecentProjects;
+            if (list.Contains(lib.LibraryConfigPath))
             {
-                RecentProjects.Remove(lib.LibraryConfigPath);
-                RecentProjects.Insert(0, lib.LibraryConfigPath);
+                list.Remove(lib.LibraryConfigPath);
+                list.Insert(0, lib.LibraryConfigPath);
             }
             //否则删除最后一个，把新的插到第一个
             else
             {
-                RecentProjects.Insert(0, lib.LibraryConfigPath);
-                RecentProjects.RemoveAt(5);
+                list.Insert(0, lib.LibraryConfigPath);
+                list.RemoveAt(5);
             }
 
             LoadRecentProjectsMenu();

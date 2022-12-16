@@ -7,7 +7,7 @@ using System.Text;
 // Change this to match your program's normal namespace
 namespace JinrikiVocaloidVBHelper.Util
 {
-    class IniFile   // revision 11
+    public class IniFile   // revision 11
     {
         string Path;
         string EXE = Assembly.GetExecutingAssembly().GetName().Name;
