@@ -13,6 +13,7 @@ using JinrikiVocaloidVBHelper.Audition;
 using JinrikiVocaloidVBHelper.Automation;
 using System.Collections.Generic;
 using JinrikiVocaloidVBHelper.FileOperation;
+using JinrikiVocaloidVBHelper.UI;
 
 namespace JinrikiVocaloidVBHelper
 {
@@ -74,7 +75,7 @@ namespace JinrikiVocaloidVBHelper
         public UTAUController UTAU { get; private set; }
 
         private Settings settings;
-        
+        private FilesPanel filesPanel = new FilesPanel(null);
 
         public FormMain()
         {
@@ -90,7 +91,8 @@ namespace JinrikiVocaloidVBHelper
             settings.Last.SearchContent = txtSearch.Text;
             settings.Last.Index = Index;
             settings.Last.MainWindowPosition = Location;
-            settings.Last.FloatToolWindowPosition = formFloat.Location;
+            if(formFloat != null)
+                settings.Last.FloatToolWindowPosition = formFloat.Location;
             settings.Last.IsMatchFullWord = checkBoxMatchFullWord.Checked;
             settings.OpenFileWaitTimeFactor = AuditionKeyboardController.OpenFileWaitTimeFactor;
             settings.Save();
@@ -147,7 +149,9 @@ namespace JinrikiVocaloidVBHelper
             }
             catch (InvalidOperationException)
             {
+#if RELEASE
                 throw new IgnorableException("注册热键失败，可能其他软件已占用该快捷键。");
+#endif
             }
 
 
@@ -159,7 +163,15 @@ namespace JinrikiVocaloidVBHelper
             formFloat = new FormFloat(this);
             formFloat.Location = settings.Last.FloatToolWindowPosition;
             formFloat.Show();
-            
+
+            //载入文件面板
+            filesPanel.TopLevel = false;
+            filesPanel.BringToFront();
+            filesPanel.Dock = DockStyle.Fill;
+            filesPanel.Show();
+            tabPage3.Controls.Add(filesPanel);
+
+            //载入编辑面板
         }
 
         /// <summary>
@@ -306,7 +318,7 @@ namespace JinrikiVocaloidVBHelper
         }
 
 
-        #region UI 事件
+#region UI 事件
         //搜索
         private void btnSearch_Click(object sender, EventArgs e)
         {
@@ -475,7 +487,7 @@ namespace JinrikiVocaloidVBHelper
         }
 
 
-        #endregion
+#endregion
 
         private void 自动切分ToolStripMenuItem_Click(object sender, EventArgs e)
         {

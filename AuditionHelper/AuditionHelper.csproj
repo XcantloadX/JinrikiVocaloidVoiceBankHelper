@@ -219,6 +219,12 @@
     <Compile Include="FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FilesPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FilesPanel.Designer.cs">
+      <DependentUpon>FilesPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util\IniFile.cs" />
     <Compile Include="Util\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
@@ -256,6 +262,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\FilesPanel.resx">
+      <DependentUpon>FilesPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

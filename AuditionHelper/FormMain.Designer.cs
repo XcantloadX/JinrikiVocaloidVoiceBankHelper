@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("1110");
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBoxMatchFullWord = new System.Windows.Forms.CheckBox();
             this.lblIndex = new System.Windows.Forms.Label();
@@ -67,6 +66,7 @@
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderTag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -82,7 +82,7 @@
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(815, 164);
+            this.panel1.Size = new System.Drawing.Size(815, 81);
             this.panel1.TabIndex = 0;
             // 
             // checkBoxMatchFullWord
@@ -90,7 +90,7 @@
             this.checkBoxMatchFullWord.AutoSize = true;
             this.checkBoxMatchFullWord.Location = new System.Drawing.Point(12, 49);
             this.checkBoxMatchFullWord.Name = "checkBoxMatchFullWord";
-            this.checkBoxMatchFullWord.Size = new System.Drawing.Size(89, 19);
+            this.checkBoxMatchFullWord.Size = new System.Drawing.Size(91, 24);
             this.checkBoxMatchFullWord.TabIndex = 11;
             this.checkBoxMatchFullWord.Text = "全词匹配";
             this.checkBoxMatchFullWord.UseVisualStyleBackColor = true;
@@ -99,9 +99,9 @@
             // 
             this.lblIndex.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblIndex.AutoSize = true;
-            this.lblIndex.Location = new System.Drawing.Point(358, 16);
+            this.lblIndex.Location = new System.Drawing.Point(358, 13);
             this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(23, 15);
+            this.lblIndex.Size = new System.Drawing.Size(24, 20);
             this.lblIndex.TabIndex = 5;
             this.lblIndex.Text = "-1";
             // 
@@ -109,9 +109,9 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(285, 16);
+            this.label1.Location = new System.Drawing.Point(285, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 15);
+            this.label1.Size = new System.Drawing.Size(69, 20);
             this.label1.TabIndex = 4;
             this.label1.Text = "当前下标";
             // 
@@ -123,15 +123,15 @@
             this.txtSearch.Location = new System.Drawing.Point(12, 10);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(197, 25);
+            this.txtSearch.Size = new System.Drawing.Size(197, 27);
             this.txtSearch.TabIndex = 3;
             // 
             // btnSearch
             // 
             this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnSearch.Location = new System.Drawing.Point(215, 10);
+            this.btnSearch.Location = new System.Drawing.Point(215, 7);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(64, 26);
+            this.btnSearch.Size = new System.Drawing.Size(66, 30);
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "搜索";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -326,6 +326,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tabControl1.Location = new System.Drawing.Point(12, 31);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -336,10 +338,10 @@
             // 
             this.tabPage1.Controls.Add(this.listView1);
             this.tabPage1.Controls.Add(this.panel1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(829, 572);
+            this.tabPage1.Size = new System.Drawing.Size(829, 568);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "搜索";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -354,15 +356,14 @@
             this.columnHeaderSpeed,
             this.columnHeaderName,
             this.columnHeaderTag});
+            this.listView1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
-            this.listView1.Location = new System.Drawing.Point(6, 176);
+            this.listView1.Location = new System.Drawing.Point(6, 93);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(817, 390);
+            this.listView1.Size = new System.Drawing.Size(817, 469);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -391,13 +392,23 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(829, 572);
+            this.tabPage2.Size = new System.Drawing.Size(829, 568);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "编辑";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(829, 568);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "文件";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -462,6 +473,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
 

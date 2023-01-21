@@ -108,11 +108,11 @@ namespace JinrikiVocaloidVBHelper.FileOperation
             Alias = keywords[0];
             try
             {
-                LeftBlank = double.Parse(keywords[1]);
-                Consonant = double.Parse(keywords[2]);
-                RightBlank = double.Parse(keywords[3]);
-                PreUtterance = double.Parse(keywords[4]);
-                Overlap = double.Parse(keywords[5]);
+                LeftBlank = string.IsNullOrWhiteSpace(keywords[1]) ? 0 : double.Parse(keywords[1]);
+                Consonant = string.IsNullOrWhiteSpace(keywords[2]) ? 0 : double.Parse(keywords[2]);
+                RightBlank = string.IsNullOrWhiteSpace(keywords[3]) ? 0 : double.Parse(keywords[3]);
+                PreUtterance = string.IsNullOrWhiteSpace(keywords[4]) ? 0 : double.Parse(keywords[4]);
+                Overlap = string.IsNullOrWhiteSpace(keywords[5]) ? 0 : double.Parse(keywords[5]);
             }
             catch (FormatException e)
             {

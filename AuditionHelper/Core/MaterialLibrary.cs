@@ -13,7 +13,7 @@ using AuditionHelper.Core;
 namespace JinrikiVocaloidVBHelper.Core
 {
     /// <summary>
-    /// 素材库操作
+    /// 媒体库操作
     /// </summary>
     public class MaterialLibrary
     {

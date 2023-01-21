@@ -117,6 +117,10 @@ namespace JinrikiVocaloidVBHelper
         public void OpenLibrary(string libConfigPath)
         {
             OpenLibrary(MaterialLibrary.Read(libConfigPath));
+
+            //刷新UI
+            filesPanel.Library = CurrentLibrary;
+            filesPanel.FillList();
         }
 
     }
