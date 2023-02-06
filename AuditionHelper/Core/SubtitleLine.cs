@@ -1,72 +1,20 @@
-﻿using System;
+﻿using hyjiacan.py4n;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using NPinyin;
-using hyjiacan.py4n;
 
 namespace JinrikiVocaloidVBHelper.Core
 {
     /// <summary>
-    /// srt 字幕文件读取器
+    /// 单行字幕数据
     /// </summary>
-    public class SrtReader
+    public class SubtitleLine : IComparable<SubtitleLine>
     {
-        
         /// <summary>
-        /// 读取 srt 字符串里的字幕信息
+        /// 本行字幕所属的 .srt 文件路径
         /// </summary>
-        /// <param name="content">srt 文件内容</param>
-        /// <returns>读取结果</returns>
-        public static SrtLine[] ReadAll(string content)
-        {
-            
-            string[] lines = content.Replace("\r", string.Empty).Split('\n');
-            List<SrtLine> srtLines = new List<SrtLine>((int)(Math.Ceiling((double)lines.Length % 4)));
-
-            /*
-1
-00:00:09,600 --> 00:00:13,633
-我的老家哎就住在这个屯
-
-2
-00:00:14,400 --> 00:00:18,766
-我是这个屯里土生土长的人啊
-             */
-
-            for (int i = 0; i < lines.Length; i += 4)
-            {
-                if (lines[i] == string.Empty)
-                    continue;
-                SrtLine line = new SrtLine();
-
-                //第一行
-                line.Number = int.Parse(lines[i]);
-                //第二行
-                string[] times = lines[i + 1].Split(new string[] { " --> " }, StringSplitOptions.None);
-                line.StartTime = times[0];
-                line.EndTime = times[1];
-                //第三行
-                line.Content = lines[i + 2];
-                //第四行（空白）
-                srtLines.Add(line);
-            }
-            return srtLines.ToArray();
-        }
-
-        public static SrtLine[] ReadAllFile(string path)
-        {
-            return ReadAll(File.ReadAllText(path));
-        }
-    }
-
-    /// <summary>
-    /// 单行字幕
-    /// </summary>
-    public class SrtLine : IComparable<SrtLine>
-    {
         public string FilePath { get; internal set; }
         /// <summary>
         /// 字幕编号
@@ -99,8 +47,6 @@ namespace JinrikiVocaloidVBHelper.Core
         {
             get
             {
-                //return Pinyin.GetPinyin(Content);
-                //return TinyPinyin.PinyinHelper.GetPinyin(Content).ToLower();
                 PinyinFormat format = PinyinFormat.WITHOUT_TONE | PinyinFormat.LOWERCASE;
                 return Pinyin4Net.GetPinyin(Content, format);
             }
@@ -112,11 +58,13 @@ namespace JinrikiVocaloidVBHelper.Core
         {
             get
             {
-                //return PinyinHelper.ToHanyuPinyinStringArray()
                 PinyinFormat format = PinyinFormat.WITH_TONE_NUMBER | PinyinFormat.LOWERCASE;
                 return Pinyin4Net.GetPinyin(Content, format);
             }
         }
+        /// <summary>
+        /// 字幕的速度，即该句字幕字数 / 该句总时长
+        /// </summary>
         public double Speed
         {
             get
@@ -124,7 +72,9 @@ namespace JinrikiVocaloidVBHelper.Core
                 return Content.Replace(" ", string.Empty).Length / Duration.TotalSeconds;
             }
         }
-
+        /// <summary>
+        /// 字幕时长
+        /// </summary>
         public TimeSpan Duration
         {
             get
@@ -134,8 +84,12 @@ namespace JinrikiVocaloidVBHelper.Core
                 return end - start;
             }
         }
-
-        public int CompareTo(SrtLine other)
+        /// <summary>
+        /// 比较两行字幕的速度
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(SubtitleLine other)
         {
             return other.Speed.CompareTo(Speed);
         }

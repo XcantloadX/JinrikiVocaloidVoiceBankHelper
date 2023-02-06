@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,8 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationVersion>0.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -144,6 +144,7 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
       <Private>True</Private>
@@ -177,10 +178,11 @@
     <Compile Include="Automation\AuditionExtendScriptController.cs" />
     <Compile Include="Automation\UTAUController.cs" />
     <Compile Include="Automation\UTAUHelper.cs" />
-    <Compile Include="Core\LibraryAudioData.cs" />
-    <Compile Include="Core\MaterialLibrary.cs" />
+    <Compile Include="Core\LibraryAudio.cs" />
+    <Compile Include="Core\Library.cs" />
     <Compile Include="Core\MFAHelper.cs" />
     <Compile Include="Core\Settings.cs" />
+    <Compile Include="Core\SubtitleLine.cs" />
     <Compile Include="Core\TextGridReader.cs" />
     <Compile Include="DialogChooseUTAU.cs">
       <SubType>Form</SubType>
@@ -229,13 +231,11 @@
     <Compile Include="Util\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\SearchHelper.cs" />
-    <Compile Include="Core\SrtFileReader.cs" />
+    <Compile Include="Core\SubtitleReader.cs" />
     <Compile Include="Util\SoundPlayer.cs" />
     <Compile Include="Util\TimeConvert.cs" />
     <Compile Include="Util\UIHelper.cs" />
     <Compile Include="Util\IgnorableException.cs" />
-    <Compile Include="Util\VisualStudioDebugHelper.cs" />
     <Compile Include="Util\Win32.cs" />
     <EmbeddedResource Include="DialogChooseUTAU.resx">
       <DependentUpon>DialogChooseUTAU.cs</DependentUpon>

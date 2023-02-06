@@ -21,7 +21,7 @@ namespace JinrikiVocaloidVBHelper
     {
         private KeyboardHook kbd = new KeyboardHook();
         private InputSimulator simulator = new InputSimulator();
-        private SrtLine[] result = null;
+        private SubtitleLine[] result = null;
         private IniFile conf = new IniFile("settings.ini");
 
 
@@ -41,7 +41,7 @@ namespace JinrikiVocaloidVBHelper
             }
         }
         private string lastFile = "";
-        public MaterialLibrary CurrentLibrary { get; set; }
+        public Library CurrentLibrary { get; set; }
         private FormFloat formFloat;
         /// <summary>
         /// 当前正在编辑的音源名称
@@ -50,7 +50,7 @@ namespace JinrikiVocaloidVBHelper
         {
             get { return txtSearch.Text; }
         }
-        public SrtLine CurrentSrtLine { get { return result[Index]; } }
+        public SubtitleLine CurrentSubtitle { get { return result[Index]; } }
         [Obsolete]
         /// <summary>
         /// 下一个音源的文件名
@@ -84,10 +84,11 @@ namespace JinrikiVocaloidVBHelper
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            AuditionController.Dispose();
+            if(AuditionController != null)
+                AuditionController.Dispose();
 
             //保存数据
-            settings.Last.LibraryPath = CurrentLibrary.ConfigPath;
+            settings.Last.LibraryPath = CurrentLibrary.CharacterPath;
             settings.Last.SearchContent = txtSearch.Text;
             settings.Last.Index = Index;
             settings.Last.MainWindowPosition = Location;
@@ -100,16 +101,10 @@ namespace JinrikiVocaloidVBHelper
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-
-#if DEBUG
-            VisualStudioDebugHelper.InstallExtesion();
-#endif
-
-
             //载入上次数据
             settings = new Settings("settings.ini");
 
-            CurrentLibrary = MaterialLibrary.Read(settings.Last.LibraryPath);
+
             Index = settings.Last.Index;
             txtSearch.Text = settings.Last.SearchContent;
             Location = settings.Last.MainWindowPosition;
@@ -119,15 +114,6 @@ namespace JinrikiVocaloidVBHelper
 
             //初始化
             AuditionController = new AuditionExtendScriptController();
-            if(CurrentLibrary.SearchHelper != null)
-            {
-                result = CurrentLibrary.SearchHelper.SearchPinYin(txtSearch.Text, FullMatch);
-                //按速度升序排序
-                Array.Sort(result);
-                Array.Reverse(result);
-                RefreshList();
-                btnSearch_Click(null, null);
-            }
 
             try
             {
@@ -323,12 +309,12 @@ namespace JinrikiVocaloidVBHelper
         private void btnSearch_Click(object sender, EventArgs e)
         {
             Index = 0;
-            if(CurrentLibrary == null || CurrentLibrary.SearchHelper == null)
+            if(CurrentLibrary == null)
             {
                 MessageBox.Show("未打开任何素材库或素材库无效！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            result = CurrentLibrary.SearchHelper.SearchPinYin(txtSearch.Text, FullMatch);
+            result = CurrentLibrary.SearchPinYin(txtSearch.Text, FullMatch);
             //按速度升序排序
             Array.Sort(result);
             Array.Reverse(result);
@@ -362,11 +348,11 @@ namespace JinrikiVocaloidVBHelper
         private void btnOpenOutPath_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.SelectedPath = CurrentLibrary.VoicePath;
+            dialog.SelectedPath = CurrentLibrary.VoiceBankPath;
             dialog.Description = "打开音源文件夹";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                CurrentLibrary.VoicePath = dialog.SelectedPath;
+                CurrentLibrary.VoiceBankPath = dialog.SelectedPath;
             }
             dialog.Dispose();
         }
@@ -421,15 +407,6 @@ namespace JinrikiVocaloidVBHelper
                 };
                 p.Start();
                 p.Dispose();
-
-                //上面代码的等价写法
-                //Process process = new Process();
-                //process.StartInfo.Arguments = args;
-                //process.StartInfo.FileName = "ffplay.exe";
-                //process.StartInfo.CreateNoWindow = true;
-                //process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                //process.Start();
-                //process.Dispose();
             }
             else if (e.KeyCode == Keys.Enter)
             {
@@ -455,7 +432,7 @@ namespace JinrikiVocaloidVBHelper
             else { return; }
             dialog.Dispose();
 
-            if (File.Exists(Path.Combine(voice, MaterialLibrary.CONFIG_FILE_NAME)))
+            if (File.Exists(Path.Combine(voice, Library.CONFIG_FILE_NAME)))
             {
                 DialogResult r = MessageBox.Show("此文件夹下已有素材库配置文件，是否覆盖？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (r == DialogResult.No)
@@ -471,8 +448,9 @@ namespace JinrikiVocaloidVBHelper
             else { return; }
             dialog2.Dispose();
 
-            MaterialLibrary lib = MaterialLibrary.Create(audio, voice);
+            Library lib = Library.Create(audio, voice);
             OpenLibrary(lib);
+            lib.Save();
         }
 
         private void 打开素材库ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -513,9 +491,9 @@ namespace JinrikiVocaloidVBHelper
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            if (CurrentLibrary.VoicePath == "")
+            if (CurrentLibrary.VoiceBankPath == "")
                 throw new IgnorableException("未打开任何素材库或无法找到 oto.ini 文件。");
-            UTAUController.CleanVoiceBank(Path.Combine(CurrentLibrary.VoicePath, "oto.ini"));
+            UTAUController.CleanVoiceBank(Path.Combine(CurrentLibrary.VoiceBankPath, "oto.ini"));
         }
     }
 }

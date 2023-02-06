@@ -29,7 +29,7 @@ namespace JinrikiVocaloidVBHelper
         private void btnSaveSelection_Click(object sender, EventArgs e)
         {
             string fileName = mainForm.NextVoiceFileName;
-            controller.SaveSelection(fileName, mainForm.CurrentLibrary.VoicePath);
+            controller.SaveSelection(fileName, mainForm.CurrentLibrary.VoiceBankPath);
             UIHelper.ShowBalloon("已保存文件", fileName);
         }
 
@@ -39,7 +39,7 @@ namespace JinrikiVocaloidVBHelper
             if(UIHelper.ShowInputDialog(ref name, "请输入发音名（不带 .wav，不带数字序号）") == DialogResult.OK)
             {
                 string fileName = mainForm.GetNextVoiceFileName(name);
-                controller.SaveSelection(fileName, mainForm.CurrentLibrary.VoicePath);
+                controller.SaveSelection(fileName, mainForm.CurrentLibrary.VoiceBankPath);
                 UIHelper.ShowBalloon("已保存文件", fileName);
             }
 
@@ -48,8 +48,8 @@ namespace JinrikiVocaloidVBHelper
         public void UpdateUI()
         {
             Text = string.Format("{0}  正在编辑\"{1}\" 下标：{2}", originalTitle, mainForm.CurrentVoiceName, mainForm.Index);
-            lblContent.Text = mainForm.CurrentSrtLine.ContentPinYin;
-            lblFile.Text = System.IO.Path.GetFileName(mainForm.CurrentSrtLine.FilePath);
+            lblContent.Text = mainForm.CurrentSubtitle.ContentPinYin;
+            lblFile.Text = System.IO.Path.GetFileName(mainForm.CurrentSubtitle.FilePath);
         }
 
         private void FormFloat_Load(object sender, EventArgs e)

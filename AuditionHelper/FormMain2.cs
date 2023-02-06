@@ -25,7 +25,7 @@ namespace JinrikiVocaloidVBHelper
         /// <returns></returns>
         public string GetNextVoiceFileName(string voiceName)
         {
-            DirectoryInfo dir = new DirectoryInfo(CurrentLibrary.VoicePath);
+            DirectoryInfo dir = new DirectoryInfo(CurrentLibrary.VoiceBankPath);
             FileInfo[] files = dir.GetFiles();
             //找出所有 a.wav a1.wav a2.wav 等文件
             var wavFiles =
@@ -82,12 +82,12 @@ namespace JinrikiVocaloidVBHelper
         /// 打开指定的素材库
         /// </summary>
         /// <param name="lib">素材库类实例</param>
-        public void OpenLibrary(MaterialLibrary lib)
+        public void OpenLibrary(Library lib)
         {
             CurrentLibrary = lib;
             btnSearch_Click(null, null);
             if (string.IsNullOrEmpty(CurrentLibrary.Name))
-                this.Text = new DirectoryInfo(CurrentLibrary.VoicePath).Name + " - UTAU 音源制作助手";
+                this.Text = new DirectoryInfo(CurrentLibrary.VoiceBankPath).Name + " - UTAU 音源制作助手";
             else
                 this.Text = CurrentLibrary.Name + " - UTAU 音源制作助手";
 
@@ -116,7 +116,7 @@ namespace JinrikiVocaloidVBHelper
         /// <param name="lib">素材库配置文件路径</param>
         public void OpenLibrary(string libConfigPath)
         {
-            OpenLibrary(MaterialLibrary.Read(libConfigPath));
+            OpenLibrary(Library.Read(libConfigPath));
 
             //刷新UI
             filesPanel.Library = CurrentLibrary;

@@ -25,8 +25,10 @@ namespace JinrikiVocaloidVBHelper.Core
         public Settings(string filePath)
         {
             SettingFilePath = filePath;
-            if(System.IO.File.Exists(filePath))
-                Read();
+            //处理文件不存在的情况
+            if (!System.IO.File.Exists(filePath))
+                System.IO.File.Create(filePath);
+            Read();
         }
 
         public void Read()

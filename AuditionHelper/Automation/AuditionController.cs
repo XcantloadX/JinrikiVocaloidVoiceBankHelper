@@ -79,7 +79,7 @@ namespace JinrikiVocaloidVBHelper.Audition
             return @"C:\Program Files\Adobe\Adobe Audition CC 2018\Adobe Audition CC.exe";
 #endif
 
-            String path = @"C:\Program Files\Adobe";
+            string path = @"C:\Program Files\Adobe";
             DirectoryInfo dir = new DirectoryInfo(path);
             DirectoryInfo[] directories = dir.GetDirectories();
             foreach (var directory in directories)

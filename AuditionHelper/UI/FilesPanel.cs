@@ -10,9 +10,9 @@ namespace JinrikiVocaloidVBHelper.UI
     /// </summary>
     public partial class FilesPanel : Form
     {
-        public MaterialLibrary Library { get; set; }
+        public Library Library { get; set; }
 
-        public FilesPanel(MaterialLibrary lib)
+        public FilesPanel(Library lib)
         {
             Library = lib;
             InitializeComponent();
