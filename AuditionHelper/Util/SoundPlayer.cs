@@ -25,5 +25,13 @@ namespace JinrikiVocaloidVBHelper.Util
             mciSendString($"play aaaaa wait", null, 0, IntPtr.Zero);
             mciSendString($"close aaaaa", null, 0, IntPtr.Zero);
         }
+
+        public static void PlayAudio(string fileName, double startSec, double endSec)
+        {
+            mciSendString($"open \"{fileName}\" alias aaaaa", null, 0, IntPtr.Zero);
+            string command = string.Format("play aaaaa from {1} to {2} wait", fileName, (int)(startSec * 1000), (int)(endSec * 1000));
+            mciSendString(command, null, 0, IntPtr.Zero);
+            mciSendString($"close aaaaa", null, 0, IntPtr.Zero);
+        }
     }
 }

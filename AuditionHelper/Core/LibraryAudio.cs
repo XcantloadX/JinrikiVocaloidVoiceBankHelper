@@ -20,12 +20,17 @@ namespace JinrikiVocaloidVBHelper.Core
         /// 该素材的标签
         /// </summary>
         [DataMember]
-        public List<string> Tags { get; internal set; }
+        public List<string> Tags { get; private set; }
         /// <summary>
-        /// 字幕数据
+        /// 该素材的字幕数据
         /// </summary>
         [XmlIgnore]
-        public List<SubtitleLine> Subtitles { get; internal set; }
+        public List<SubtitleLine> Subtitles { get; private set; }
+        /// <summary>
+        /// 该素材的标注数据
+        /// </summary>
+        [DataMember]
+        public List<LibrarySubtitleLineAlign> AlignData { get; private set; }
         /// <summary>
         /// 素材的基础路径（不带后缀名）
         /// </summary>
@@ -44,11 +49,7 @@ namespace JinrikiVocaloidVBHelper.Core
         /// 素材的 srt 字幕文件路径
         /// </summary>
         public string SubtitlePath { get { return Path.ChangeExtension(BasePath, ".srt"); } }
-        /// <summary>
-        /// 该素材的标注数据
-        /// </summary>
-        [DataMember]
-        public List<string> AlignData { get; internal set; }
+
 
         /// <summary>
         /// 创建一个空的实例。
@@ -68,7 +69,7 @@ namespace JinrikiVocaloidVBHelper.Core
 
             string basePath = Path.ChangeExtension(audioPath, "");
             audio.Tags = new List<string>(5);
-            audio.AlignData = new List<string>(50);
+            audio.AlignData = new List<LibrarySubtitleLineAlign>(50);
             audio.BasePath = basePath;
 
             return audio;

@@ -79,6 +79,27 @@ namespace JinrikiVocaloidVBHelper
 
         public FormMain()
         {
+            //DEBUG
+            //LibraryAudio a = LibraryAudio.Read(@"D:\工作区\B站视频存档\怒九笑-audio-only-去伴奏\【Bug惊魂5】笑爆！暴躁老兵带着他的乡下老板没心没肺的乡村生活.xml");
+            //AutoAligner.Align(a);
+            //a.Save();
+            //SoundPlayer.PlayAudio(a.AudioPath, a.AlignData[0].Items[1].Start, a.AlignData[0].Items[1].End);
+            ////-i 输入文件 -ss 开始时间 -t 播放长度
+
+            //string args = string.Format("-i \"{0}\" -ss {1} -t {2} -autoexit", a.AudioPath, a.AlignData[0].Items[1].Start + a.Subtitles[0].StartSecond, a.AlignData[0].Items[1].End - a.AlignData[0].Items[1].Start);
+
+            //Process p = new Process
+            //{
+            //    StartInfo = new ProcessStartInfo
+            //    {
+            //        Arguments = args,
+            //        FileName = "tools\\ffplay.exe",
+            //        CreateNoWindow = true,
+            //        WindowStyle = ProcessWindowStyle.Hidden
+            //    }
+            //};
+            //p.Start();
+            //p.Dispose();
             InitializeComponent();
         }
 
@@ -469,9 +490,9 @@ namespace JinrikiVocaloidVBHelper
 
         private void 自动切分ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("即将扫描所有音频文件并对其进行逐字切分，耗时可能较长，是否继续？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if(MessageBox.Show("即将扫描所有音频文件并对其进行逐字标注，耗时可能较长，是否继续？\n原有的标注数据将被覆盖。", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                CurrentLibrary.AutoAlign();
+                AutoAligner.Align(CurrentLibrary.Audios.ToArray());
             }
         }
 

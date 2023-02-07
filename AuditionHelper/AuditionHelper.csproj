@@ -178,12 +178,13 @@
     <Compile Include="Automation\AuditionExtendScriptController.cs" />
     <Compile Include="Automation\UTAUController.cs" />
     <Compile Include="Automation\UTAUHelper.cs" />
+    <Compile Include="Core\AutoAligner.cs" />
     <Compile Include="Core\LibraryAudio.cs" />
     <Compile Include="Core\Library.cs" />
+    <Compile Include="Core\LibrarySubtitleLineAlign.cs" />
     <Compile Include="Core\MFAHelper.cs" />
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\SubtitleLine.cs" />
-    <Compile Include="Core\TextGridReader.cs" />
     <Compile Include="DialogChooseUTAU.cs">
       <SubType>Form</SubType>
     </Compile>

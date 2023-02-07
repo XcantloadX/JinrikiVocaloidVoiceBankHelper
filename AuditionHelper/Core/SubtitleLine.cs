@@ -37,6 +37,29 @@ namespace JinrikiVocaloidVBHelper.Core
         /// </summary>
         public string EndTime2 { get { return EndTime.Replace(',', '.'); } }
         /// <summary>
+        /// 开始秒数。
+        /// </summary>
+        public double StartSecond
+        {
+            get
+            {
+                TimeSpan start = TimeSpan.ParseExact(StartTime, "hh':'mm':'ss','fff", System.Globalization.CultureInfo.InvariantCulture);
+                return start.TotalSeconds;
+            }
+        }
+        /// <summary>
+        /// 结束秒数。
+        /// </summary>
+        public double EndSecond
+        {
+            get
+            {
+                TimeSpan end = TimeSpan.ParseExact(EndTime, "hh':'mm':'ss','fff", System.Globalization.CultureInfo.InvariantCulture);
+                return end.TotalSeconds;
+            }
+        }
+        /// <summary>
+        /// <summary>
         /// 字幕内容
         /// </summary>
         public string Content { get; internal set; }
@@ -93,5 +116,7 @@ namespace JinrikiVocaloidVBHelper.Core
         {
             return other.Speed.CompareTo(Speed);
         }
+
+        
     }
 }

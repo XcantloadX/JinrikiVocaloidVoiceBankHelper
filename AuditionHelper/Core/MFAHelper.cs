@@ -58,11 +58,11 @@ namespace JinrikiVocaloidVBHelper.Core
         /// <param name="filePath">音频文件路径。必须是 wav 文件，最好是 16 位单声道</param>
         /// <param name="pinyin">拼音，需要带数字声调。如 ke3 yi3 a1（可以啊）</param>
         /// <param name="outPath">输出文件夹</param>
-        public static void AlignBatch(string dirPath, string outPath)
+        public static void AlignBatch(string inPath, string outPath)
         {
             string bat = File.ReadAllText(RUNNER_PATH)
                 .Replace("{{root}}", Path.GetFullPath(VVTALK_PATH))
-                .Replace("{{in}}", Path.GetFullPath(dirPath))
+                .Replace("{{in}}", Path.GetFullPath(inPath))
                 .Replace("{{out}}", Path.GetFullPath(outPath));
             File.WriteAllText(TEMP_BAT_PATH, bat);
 
